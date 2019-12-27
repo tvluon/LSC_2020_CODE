@@ -1,0 +1,111 @@
+.search-bar {
+    border-style: solid;
+    border-width: 2px;
+    color: #7e7e7e;
+}
+
+.search-bar::after {
+    font-family: "FontAwesome";
+    content: "\f002";
+    font-size: 3em;
+    cursor: pointer;
+}
+
+.search-bar input {
+    font-size: x-large;
+    background-color: transparent;
+}
+
+.search-bar input:focus {
+    outline: none;
+}
+
+.filter-item button{
+    width: 18%;
+    text-align: start;
+}
+
+.filter .dropdown-menu {
+    width: 50em;
+}
+
+.filter .search-bar input, .filter .search-bar::after{
+    font-size: 1em;
+}
+
+.all-categories a{
+    padding-right: 8px;
+}
+
+.tag > span::after {
+    font-family: "FontAwesome";
+    content: "\f00d";
+    padding-left: 8px;
+    padding-right: 2px;
+    cursor: pointer;
+}
+
+.tag > span {
+    padding: 4px;
+    margin-right: 4px;
+}
+
+.horizontal-line {
+    height: 1px;
+    color: #7e7e7e;
+}
+
+.result {
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
+.result div {
+    padding: 2px;
+}
+
+.result .action-button {
+    margin: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background-color: rgba(247, 247, 247, 0.5);
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+}
+
+.result .action-button::before{
+    font-family: "FontAwesome";
+    content: "\f00c";
+    border-style: solid;
+    border-width: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 1em;
+    border-radius: 50%;
+    vertical-align: middle;
+    text-align: center;
+    border-color: #7e7e7e;
+}
+
+.result img {
+    width: 100%;
+    height: auto;
+}
+
+.import-export img {
+    width: 48px;
+    height: 48px;
+}
+
+.import-export > div{
+    padding-left: 16px;
+    padding-right: 16px;
+    cursor: pointer;
+}
