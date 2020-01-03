@@ -1,0 +1,244 @@
+/* Header */
+.search-bar {
+    border-style: solid;
+    border-width: 1px;
+    color: #7e7e7e;
+}
+
+.search-bar::after {
+    font-family: "FontAwesome";
+    content: "\f002";
+    font-size: 3em;
+    cursor: pointer;
+}
+
+.search-bar input {
+    font-size: x-large;
+    background-color: transparent;
+}
+
+.search-bar input:focus {
+    outline: none;
+}
+
+/* Filters */
+.filter-holder>div>button{
+    width: 18%;
+    text-align: start;
+}
+
+.filter-holder .dropdown-menu {
+    width: 50em;
+}
+
+.filter-holder .search-bar input, .filter-holder .search-bar::after{
+    font-size: 1em;
+}
+
+.dictionary>span {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.all-data span {
+    margin-right: 12px;
+    text-decoration: underline;
+    display: inline-block;
+    cursor: pointer;
+    color: #007bff;
+}
+
+.datetime-picker-holder {
+    margin-bottom: 16px;
+}
+
+.date-picker>div, .time-picker>div {
+    margin-bottom: 8px;
+}
+
+.date-picker>input, .time-picker>input {
+    background-color: transparent;
+    border-radius: 3px;
+    border: 1px solid #7e7e7e;
+}
+
+.date-picker>input {
+    background: url('../img/icon_calendar.png') no-repeat 6px 6px;
+    padding-left: 28px;
+}
+
+.time-picker>input {
+    background: url('../img/icon_alarm.png') no-repeat 6px 6px;
+    padding-left: 28px;
+}
+
+
+.timebase>span, .timezone>span {
+    padding-right: 8px;
+}
+
+.timebase>select, .timezone>select {
+    background-color: transparent;
+    border-radius: 3px;
+    border-color: #7e7e7e;
+}
+
+.dropdown-custom>button {
+    background-color: transparent;
+    padding: 4px 12px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border: 1px solid #7e7e7e;
+    border-radius: 3px;
+    text-align: left;
+}
+
+.dropdown-custom>button::after{
+    font-family: "FontAwesome";
+    content: "\f0d7";
+}
+  
+.dropdown-content>input {
+    box-sizing: border-box;
+    background-color: white;
+    background-position: 14px 12px;
+    padding: 12px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+}
+  
+.dropdown-content>input:focus {
+    outline: 3px solid #ddd;
+}
+
+.dropdown-custom {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+    width: 100%;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: none;
+    width: 100%;
+}
+
+.dropdown-custom a:hover {
+    background-color: #ddd;
+}
+
+.dropdown-custom-show {
+    display: block;
+}
+
+.extradata-holder>div>span{
+    width: 150px;
+}
+
+/* Tags */
+.tag > span::after {
+    font-family: "FontAwesome";
+    content: "\f00d";
+    padding-left: 8px;
+    padding-right: 2px;
+    cursor: pointer;
+}
+
+.tag {
+    padding: 4px 0;
+}
+
+.tag > span {
+    padding: 4px;
+    margin-right: 4px;
+}
+
+.horizontal-line {
+    height: 1px;
+    color: #7e7e7e;
+}
+
+/* Results */
+.result-holder {
+    margin-left: -2px;
+    margin-right: -2px;
+}
+
+.result-holder div {
+    padding: 2px;
+}
+
+.result-holder .action-button {
+    margin: 2px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background-color: rgba(247, 247, 247, 0.5);
+    border-radius: 50%;
+    display: none;
+    cursor: pointer;
+}
+
+.result-holder .action-button::before{
+    font-family: "FontAwesome";
+    content: "\f00c";
+    border-style: solid;
+    border-width: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5em;
+    height: 1.5em;
+    font-size: 1em;
+    border-radius: 50%;
+    vertical-align: middle;
+    text-align: center;
+    border-color: #7e7e7e;
+}
+
+.result-holder img {
+    width: 100%;
+    height: auto;
+}
+
+/* Footer */
+.import-export img {
+    width: 48px;
+    height: 48px;
+}
+
+.import-export > div{
+    padding-left: 16px;
+    padding-right: 16px;
+    cursor: pointer;
+}
+
+/* Custom */
+.custom-selected {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.custom-show {
+    display: block !important;
+}
+
+.custom-hidden {
+    display: none !important;
+}

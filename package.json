@@ -1,0 +1,22 @@
+{
+  "name": "lscweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mainguyenanhvu/LSCweb.git"
+  },
+  "author": "tvluon - mnav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mainguyenanhvu/LSCweb/issues"
+  },
+  "homepage": "https://github.com/mainguyenanhvu/LSCweb#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
