@@ -59,7 +59,7 @@ var handleDropdownCustomTrigger = function () {
 
 var handleFiltersData = function (categories, attributes, concepts, activities, locations, songs) {
     // Sort array
-    categories.sort((a, b) => a - b)
+    categories.sort((a, b) => a - b);
     attributes.sort((a, b) => a - b);
     concepts.sort((a, b) => a - b);
     activities.sort((a, b) => a - b);
@@ -99,16 +99,6 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         });
     });
 
-    // Add filter attributes
-    categories.forEach(category => {
-        if (category[0].toLowerCase() == 'a') {
-            allCategories.append(`<span>${category}</span>`);
-        }
-        else {
-            allCategories.append(`<span class="custom-hidden">${category}</span>`);
-        }
-    });
-
     categorySeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
@@ -127,15 +117,6 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         }
     });
 
-    attributes.forEach(attribute => {
-        if (attribute[0].toLowerCase() == 'a') {
-            allAttributes.append(`<span>${attribute}</span>`);
-        }
-        else {
-            allAttributes.append(`<span class="custom-hidden">${attribute}</span>`);
-        }
-    });
-
     attributeSeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
@@ -151,15 +132,6 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         }
         else {
             attributeResult.removeClass('custom-show');
-        }
-    });
-
-    concepts.forEach(concept => {
-        if (concept[0].toLowerCase() == 'a') {
-            allConcepts.append(`<span>${concept}</span>`);
-        }
-        else {
-            allConcepts.append(`<span class="custom-hidden">${concept}</span>`);
         }
     });
 
@@ -182,19 +154,12 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         }
     });
 
-    var activityHolder = extradataActivity.find('.dropdown-content');
-    activities.forEach(activity => activityHolder.append(`<a href="#">${activity}</a>`));
-
-    var locationHolder = extradataLocation.find('.dropdown-content');
-    locations.forEach(location => locationHolder.append(`<a href="#">${location}</a>`));
-
-    var songHolder = extradataSong.find('.dropdown-content');
-    songs.forEach(song => songHolder.append(`<a href="#">${song}</a>`));
+    $('.dictionary span:first-child').trigger('click');
 
     extradataActivity.find('.dropdown-content input').keyup(function (e) {
         let textField = $(this);
         let keyword = textField.val();
-        let allActivities = textField.parent().children('a');
+        let allActivities = textField.parent().find('a');
 
         let results = activities.filter(activity => !activity.toLowerCase().includes(keyword.toLowerCase()));
         allActivities.removeClass('custom-hidden');
@@ -211,7 +176,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     extradataLocation.find('.dropdown-content input').keyup(function (e) {
         let textField = $(this);
         let keyword = textField.val();
-        let allLocations = textField.parent().children('a');
+        let allLocations = textField.parent().find('a');
 
         let results = locations.filter(location => !location.toLowerCase().includes(keyword.toLowerCase()));
         allLocations.removeClass('custom-hidden');
@@ -245,17 +210,55 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     allExtradata = $('.extradata-filter .dropdown-custom .dropdown-content a');
     allExtradata.click(function () {
         data = $(this).text();
-        button = $(this).parent().parent().children('button');
+        button = $(this).parent().parent().parent().children('button');
         button.text(data);
-        $(this).parent().removeClass('custom-show');
+        $(this).parent().parent().removeClass('custom-show');
     });
+}
+
+var handeTagTrigger = function () {
+    tagElRmBtns = $('.tag span i');
+
+    tagElRmBtns.click(function () {
+        $(this).parent().remove();
+    });
+}
+
+var renderTemplate = function (categories, attributes, concepts, activities, locations, songs) {
+    Handlebars.registerPartial(
+        'createDataEl',
+        `
+        \{{#each data}}
+        <span class="custom-hidden">\{{this}}</span>
+        \{{/each}}
+        `
+    );
+
+    Handlebars.registerPartial(
+        'createExtraDataEl',
+        `
+        \{{#each data}}
+        <a href="#">\{{this}}</a>
+        \{{/each}}
+        `
+    )
+
+    cateTemplate = Handlebars.compile($('.category-filter .all-data').text());
+    actiTemplate = Handlebars.compile($('.extradata-activity .dropdown-content div').text());
+
+    $('.category-filter .all-data').html(cateTemplate({ 'data': categories }));
+    $('.attribute-filter .all-data').html(cateTemplate({ 'data': attributes }));
+    $('.concept-filter .all-data').html(cateTemplate({ 'data': concepts }));
+    $('.extradata-activity .dropdown-content div').html(actiTemplate({'data': activities}));
+    $('.extradata-location .dropdown-content div').html(actiTemplate({'data': locations}));
+    $('.extradata-song .dropdown-content div').html(actiTemplate({'data': songs}));
 }
 
 $(document).ready(async function () {
     handleResultTrigger();
 
     handleDropdownCustomTrigger();
-    
+
     var activities = JSON.parse(await $.get("/data/activities"));
 
     var locations = JSON.parse(await $.get("/data/locations"));
@@ -268,5 +271,9 @@ $(document).ready(async function () {
 
     var categories = JSON.parse(await $.get("/data/categories"));
 
+    renderTemplate(categories, attributes, concepts, activities, locations, songs)
+
     handleFiltersData(categories, attributes, concepts, activities, locations, songs);
+
+    handeTagTrigger();
 });

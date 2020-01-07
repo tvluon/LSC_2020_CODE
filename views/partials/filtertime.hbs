@@ -1,0 +1,44 @@
+<div class="dropdown d-inline time-filter">
+    <button class="btn btn-light dropdown-toggle border" id="categoryDropdownButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">Time</button>
+    <div class="dropdown-menu dropdown-menu-right p-2 ml-2" aria-labelledby="categoryDropdownButton">
+        <div class="row datetime-picker-holder">
+            <div class="col-md-3 date-picker">
+                <div>Start date:</div>
+                <input type="date">
+            </div>
+            <div class="col-md-3 time-picker">
+                <div>Start time:</div>
+                <input type="time">
+            </div>
+            <div class="col-md-3 date-picker">
+                <div>End date:</div>
+                <input type="date">
+            </div>
+            <div class="col-md-3 time-picker">
+                <div>End time:</div>
+                <input type="time">
+            </div>
+        </div>
+        <div class="row timebase-timezone-holder">
+            <div class="col-md-6 d-flex timebase">
+                <span>Time base:</span>
+                <select class="flex-grow-1">
+                    <option value="local">Local Time</option>
+                    <option value="utc">UTC Time</option>
+                </select>
+            </div>
+            <div class="col-md-6 d-flex timezone">
+                <span>Time zone:</span>
+                <select class="flex-grow-1">
+                    <option value="any">Any</option>
+                    <option value="shanghai">Asia/Shanghai</option>
+                    <option value="berlin">Europe/Berlin</option>
+                    <option value="dublin">Europe/Dublin</option>
+                    <option value="istanbul">Europe/Istanbul</option>
+                    <option value="london">Europe/London</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

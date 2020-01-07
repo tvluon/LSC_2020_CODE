@@ -149,4 +149,4 @@ var categories = [
     'C category 16'
 ];
 
-module.exports = router
+module.exports = router;

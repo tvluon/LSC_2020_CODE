@@ -5,11 +5,12 @@
     color: #7e7e7e;
 }
 
-.search-bar::after {
-    font-family: "FontAwesome";
-    content: "\f002";
+.search-bar i {
+    height: 100%;
     font-size: 3em;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .search-bar input {
@@ -146,13 +147,13 @@
 }
 
 /* Tags */
-.tag > span::after {
+/* .tag > span::after {
     font-family: "FontAwesome";
     content: "\f00d";
     padding-left: 8px;
     padding-right: 2px;
     cursor: pointer;
-}
+} */
 
 .tag {
     padding: 4px 0;
@@ -161,6 +162,11 @@
 .tag > span {
     padding: 4px;
     margin-right: 4px;
+}
+
+.tag > span > i {
+    padding-left: 8px;
+    cursor: pointer;
 }
 
 .horizontal-line {

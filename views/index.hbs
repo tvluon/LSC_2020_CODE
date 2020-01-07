@@ -1,0 +1,120 @@
+<div class="container-fluid">
+    {{>header}}
+    <!-- Filters dropdown -->
+    <div class="filter-holder my-2">
+        <!-- Categories -->
+        {{#each filters}}
+        {{>filterdict filter=this}}
+        {{/each}}
+
+        <!-- Time -->
+        {{>filtertime}}
+        
+        <!-- Extra Data -->
+        {{>filterextra}}
+    </div>
+    <!-- Tags -->
+    <div class="tag">
+        <span class="bg-light border tag-item">
+            Tag 1
+            <i class="fa fa-times"></i>
+        </span>
+        <span class="bg-light border tag-item">
+            Tag 2
+            <i class="fa fa-times"></i>
+        </span>
+        <span class="bg-light border tag-item">
+            Tag 3
+            <i class="fa fa-times"></i>
+        </span>
+    </div>
+
+    <!-- Horizontal line -->
+    <div class="horizontal-line my-2 bg-secondary"></div>
+
+    <!-- img display -->
+    <div class="row result-holder">
+        <div class="col-md-2 result" data-result-id="0">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="1">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="2">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="3">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="4">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="5">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="6">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="7">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="8">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="9">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="10">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="11">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="12">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="13">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="14">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="15">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="16">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="17">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="18">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+        <div class="col-md-2 result" data-result-id="19">
+            <div class="action-button"></div>
+            <img src="./img/sample_image.jpg" alt="result">
+        </div>
+    </div>
+
+    {{>footer}}
+</div>
