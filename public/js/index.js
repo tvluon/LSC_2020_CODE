@@ -53,7 +53,7 @@ var handleDropdownCustomTrigger = function () {
     });
 
     $(".dropdown-custom>button").click(function () {
-        $(this).parent().children(".dropdown-content").toggleClass("dropdown-custom-show");
+        $(this).parent().children(".dropdown-content").toggleClass("custom-show");
     });
 };
 
@@ -112,18 +112,18 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     categorySeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
-            categoryResult.removeClass('dropdown-custom-show');
+            categoryResult.removeClass('custom-show');
             return;
         }
 
         categoryResult.empty();
         let results = categories.filter(category => category.toLowerCase().includes(keyword.toLowerCase()));
         if (results.length > 0) {
-            categoryResult.addClass('dropdown-custom-show');
+            categoryResult.addClass('custom-show');
             results.forEach(result => categoryResult.append(`<a href="#">${result}</a>`));
         }
         else {
-            categoryResult.removeClass('dropdown-custom-show');
+            categoryResult.removeClass('custom-show');
         }
     });
 
@@ -139,18 +139,18 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     attributeSeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
-            attributeResult.removeClass('dropdown-custom-show');
+            attributeResult.removeClass('custom-show');
             return;
         }
 
         attributeResult.empty();
         let results = attributes.filter(attribute => attribute.toLowerCase().includes(keyword.toLowerCase()));
         if (results.length > 0) {
-            attributeResult.addClass('dropdown-custom-show');
+            attributeResult.addClass('custom-show');
             results.forEach(result => attributeResult.append(`<a href="#">${result}</a>`));
         }
         else {
-            attributeResult.removeClass('dropdown-custom-show');
+            attributeResult.removeClass('custom-show');
         }
     });
 
@@ -166,42 +166,43 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     conceptSeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
-            conceptResult.removeClass('dropdown-custom-show');
+            conceptResult.removeClass('custom-show');
             return;
         }
 
         conceptResult.empty();
         let results = concepts.filter(concept => concept.toLowerCase().includes(keyword.toLowerCase()));
+        console.log(results);
         if (results.length > 0) {
-            conceptResult.addClass('dropdown-custom-show');
+            conceptResult.addClass('custom-show');
             results.forEach(result => conceptResult.append(`<a href="#">${result}</a>`));
         }
         else {
-            conceptResult.removeClass('dropdown-custom-show');
+            conceptResult.removeClass('custom-show');
         }
     });
 
     var activityHolder = extradataActivity.find('.dropdown-content');
-    activities.forEach(activity => activityHolder.append(`<a href="#" class='custom-show'>${activity}</a>`));
+    activities.forEach(activity => activityHolder.append(`<a href="#">${activity}</a>`));
 
     var locationHolder = extradataLocation.find('.dropdown-content');
-    locations.forEach(location => locationHolder.append(`<a href="#" class='custom-show'>${location}</a>`));
+    locations.forEach(location => locationHolder.append(`<a href="#">${location}</a>`));
 
     var songHolder = extradataSong.find('.dropdown-content');
-    songs.forEach(song => songHolder.append(`<a href="#" class='custom-show'>${song}</a>`));
+    songs.forEach(song => songHolder.append(`<a href="#">${song}</a>`));
 
     extradataActivity.find('.dropdown-content input').keyup(function (e) {
         let textField = $(this);
         let keyword = textField.val();
         let allActivities = textField.parent().children('a');
 
-        allActivities.addClass('custom-show');
         let results = activities.filter(activity => !activity.toLowerCase().includes(keyword.toLowerCase()));
+        allActivities.removeClass('custom-hidden');
         if (results.length > 0) {
             allActivities.each(function () {
                 let activity = $(this).text();
                 if (results.findIndex(result => result == activity) != -1) {
-                    $(this).removeClass('custom-show');
+                    $(this).addClass('custom-hidden');
                 }
             });
         }
@@ -212,13 +213,13 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         let keyword = textField.val();
         let allLocations = textField.parent().children('a');
 
-        allLocations.addClass('custom-show');
         let results = locations.filter(location => !location.toLowerCase().includes(keyword.toLowerCase()));
+        allLocations.removeClass('custom-hidden');
         if (results.length > 0) {
             allLocations.each(function () {
                 let location = $(this).text();
                 if (results.findIndex(result => result == location) != -1) {
-                    $(this).removeClass('custom-show');
+                    $(this).addClass('custom-hidden');
                 }
             });
         }
@@ -229,13 +230,13 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         let keyword = textField.val();
         let allSongs = textField.parent().children('a');
 
-        allSongs.addClass('custom-show');
         let results = songs.filter(song => !song.toLowerCase().includes(keyword.toLowerCase()));
+        allSongs.removeClass('custom-hidden');
         if (results.length > 0) {
             allSongs.each(function () {
                 let song = $(this).text();
                 if (results.findIndex(result => result == song) != -1) {
-                    $(this).removeClass('custom-show');
+                    $(this).addClass('custom-hidden');
                 }
             });
         }
@@ -246,7 +247,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         data = $(this).text();
         button = $(this).parent().parent().children('button');
         button.text(data);
-        $(this).parent().removeClass('dropdown-custom-show');
+        $(this).parent().removeClass('custom-show');
     });
 }
 

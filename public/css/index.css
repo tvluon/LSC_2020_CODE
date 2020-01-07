@@ -133,16 +133,12 @@
     color: black;
     padding: 8px 12px;
     text-decoration: none;
-    display: none;
     width: 100%;
+    display: block;
 }
 
 .dropdown-custom a:hover {
     background-color: #ddd;
-}
-
-.dropdown-custom-show {
-    display: block;
 }
 
 .extradata-holder>div>span{
