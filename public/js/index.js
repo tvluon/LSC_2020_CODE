@@ -12,7 +12,6 @@ var addMouseTriggerOnActionButton = function (actionButton) {
     }).mouseleave(function () {
         $(this).css("background-color", "rgba(247, 247, 247, 0.5)")
     });
-
 };
 
 var handleResultTrigger = function () {
@@ -144,7 +143,6 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
 
         conceptResult.empty();
         let results = concepts.filter(concept => concept.toLowerCase().includes(keyword.toLowerCase()));
-        console.log(results);
         if (results.length > 0) {
             conceptResult.addClass('custom-show');
             results.forEach(result => conceptResult.append(`<a href="#">${result}</a>`));
@@ -216,7 +214,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     });
 }
 
-var handeTagTrigger = function () {
+var handleTagTrigger = function () {
     tagElRmBtns = $('.tag span i');
 
     tagElRmBtns.click(function () {
@@ -228,18 +226,18 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     Handlebars.registerPartial(
         'createDataEl',
         `
-        \{{#each data}}
-        <span class="custom-hidden">\{{this}}</span>
-        \{{/each}}
+        {{#each data}}
+        <span class="custom-hidden">{{this}}</span>
+        {{/each}}
         `
     );
 
     Handlebars.registerPartial(
         'createExtraDataEl',
         `
-        \{{#each data}}
-        <a href="#">\{{this}}</a>
-        \{{/each}}
+        {{#each data}}
+        <a href="#">{{this}}</a>
+        {{/each}}
         `
     )
 
@@ -275,5 +273,5 @@ $(document).ready(async function () {
 
     handleFiltersData(categories, attributes, concepts, activities, locations, songs);
 
-    handeTagTrigger();
+    handleTagTrigger();
 });

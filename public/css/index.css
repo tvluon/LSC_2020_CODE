@@ -1,4 +1,18 @@
+html, body, .container-fluid {
+    height: 100%;
+    min-height: 100%;
+    max-height: 100%;
+}
+
 /* Header */
+header {
+    height: 80px;
+}
+
+header .logo {
+    height: 100%;
+}
+
 .search-bar {
     border-style: solid;
     border-width: 1px;
@@ -147,14 +161,6 @@
 }
 
 /* Tags */
-/* .tag > span::after {
-    font-family: "FontAwesome";
-    content: "\f00d";
-    padding-left: 8px;
-    padding-right: 2px;
-    cursor: pointer;
-} */
-
 .tag {
     padding: 4px 0;
 }
@@ -178,9 +184,15 @@
 .result-holder {
     margin-left: -2px;
     margin-right: -2px;
+    flex: 1;
+    overflow: auto;
 }
 
-.result-holder div {
+.result-holder>div>div, .result-holder>div>img{
+    height: 100%;
+}
+
+.result-holder>div {
     padding: 2px;
 }
 
@@ -220,15 +232,33 @@
 }
 
 /* Footer */
+footer {
+    align-items: center;
+}
+
+.import-export img, .import-export span{
+    display: inline-flex;
+}
+
 .import-export img {
-    width: 48px;
-    height: 48px;
+    width: 28px;
+    height: 36px;
 }
 
 .import-export > div{
-    padding-left: 16px;
-    padding-right: 16px;
     cursor: pointer;
+}
+
+.import-export span {
+    align-items: center;
+    padding-left: 4px;
+}
+
+.import-export {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Custom */
