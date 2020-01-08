@@ -215,10 +215,67 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
 }
 
 var handleTagTrigger = function () {
-    tagElRmBtns = $('.tag span i');
+    // Remove tags
+    var tagElRmBtns = $('.tag span i');
 
-    tagElRmBtns.click(function () {
+    var removeTagFunc = function () {
+        var tag = $(this).parent().text();
         $(this).parent().remove();
+        
+        console.log(tag);
+        masterTagHolder = $('.container-fluid>.tag');
+        masterTagHolder.children('span').each(function () {
+            console.log(`current tag ${$(this).text()}`);
+            if ($(this).text() == tag) {
+                $(this).remove();
+            }
+        });
+    }
+
+    var removeMasterTagFunc = function() {
+        var tag = $(this).parent().text();
+        $(this).parent().remove();
+        
+        console.log(tag);
+        tagHolder = $('.filter-holder .dropdown-menu .tag');
+        tagHolder.children('span').each(function () {
+            if ($(this).text() == tag) {
+                $(this).remove();
+            }
+        });  
+    }
+
+    tagElRmBtns.click(removeTagFunc);
+
+    //Add tag
+    var allTags = $('.filter-holder .all-data span');
+
+    allTags.click(function () {
+        var tag = $(this).text();
+        var dropdownMenu = $(this).closest('.dropdown-menu');
+        var tagHolder = dropdownMenu.children('.tag');
+        var masterTagHolder = $('.container-fluid>.tag');
+        
+        var selectedTags = tagHolder.children('span').map(function () {
+            return $(this).text();
+        }).toArray();
+
+        var isSelected = selectedTags.filter((v) => v.includes(tag)).length > 0;
+        if (isSelected) {
+            return;
+        }
+
+        var tagEl = `
+        <span class="bg-light border tag-item">${tag}
+            <i class="fa fa-times"></i>
+        </span>
+        `;
+
+        tagHolder.append(tagEl);
+        masterTagHolder.append(tagEl);
+
+        tagHolder.find('span:last i').click(removeTagFunc);
+        masterTagHolder.find('span:last i').click(removeMasterTagFunc);
     });
 }
 
@@ -247,9 +304,9 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     $('.category-filter .all-data').html(cateTemplate({ 'data': categories }));
     $('.attribute-filter .all-data').html(cateTemplate({ 'data': attributes }));
     $('.concept-filter .all-data').html(cateTemplate({ 'data': concepts }));
-    $('.extradata-activity .dropdown-content div').html(actiTemplate({'data': activities}));
-    $('.extradata-location .dropdown-content div').html(actiTemplate({'data': locations}));
-    $('.extradata-song .dropdown-content div').html(actiTemplate({'data': songs}));
+    $('.extradata-activity .dropdown-content div').html(actiTemplate({ 'data': activities }));
+    $('.extradata-location .dropdown-content div').html(actiTemplate({ 'data': locations }));
+    $('.extradata-song .dropdown-content div').html(actiTemplate({ 'data': songs }));
 }
 
 $(document).ready(async function () {
