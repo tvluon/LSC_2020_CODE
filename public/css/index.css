@@ -239,7 +239,7 @@ footer {
     align-items: center;
 }
 
-.import-export img, .import-export span{
+.import-export img, .import-export a{
     display: inline-flex;
 }
 
@@ -252,7 +252,9 @@ footer {
     cursor: pointer;
 }
 
-.import-export span {
+.import-export a {
+    color: black;
+    text-decoration: none;
     align-items: center;
     padding-left: 4px;
 }

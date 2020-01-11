@@ -48,7 +48,6 @@ var addResultsTrigger = function(results) {
     results.click(function() {
         $(".deleted-result-holder").append($(this).clone());
         $(this).remove();
-        console.log($(".deleted-result-holder>div:last"));
         addDeleteResultsTrigger($(".deleted-result-holder>div:last"));
     });
 };
@@ -372,5 +371,14 @@ $(document).ready(async function () {
     $('header .search-bar i:last').click(function () {
         var query = $('header .search-bar input').val();
         sendQuery(query);
+    });
+
+    $('.import-export .export a').click(function () {
+        var results = $('.result-holder:first>div').map(function (params) {
+            return $(this).data('result-id');
+        }).toArray();
+
+        $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
+        $(this).attr('download', 'results');
     });
 });
