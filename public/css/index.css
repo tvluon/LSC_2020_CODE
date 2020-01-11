@@ -6,7 +6,7 @@ html, body, .container-fluid {
 
 /* Header */
 header {
-    height: 80px;
+    height: 70px;
 }
 
 header .logo {
@@ -21,7 +21,7 @@ header .logo {
 
 .search-bar i {
     height: 100%;
-    font-size: 3em;
+    font-size: 2em;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -188,6 +188,7 @@ header .logo {
     margin-right: -2px;
     flex: 1;
     overflow: auto;
+
 }
 
 .result-holder>div>div, .result-holder>div>img{

@@ -14,35 +14,50 @@ var addMouseTriggerOnActionButton = function (actionButton) {
     });
 };
 
-var handleResultTrigger = function () {
-    var results = $(".result-holder div");
-    var clicked = Array.from(results.map((_) => false));
+var addResultsTrigger = function(results) {
+    var deletedResultHolder = $(".deleted-result-holder");
+    // var clicked = Array.from(results.map((_) => false));
 
-    addMouseTriggerOnResult(results);
+    // addMouseTriggerOnResult(results);
 
-    addMouseTriggerOnActionButton($(".result-holder .action-button"))
+    // addMouseTriggerOnActionButton($(".result-holder .action-button"))
 
-    $(".result-holder .action-button").click(function () {
-        result = $(this).parent();
+    // $(".result-holder .action-button").click(function () {
+    //     result = $(this).parent();
 
-        result_id = result.data("result-id");
+    //     result_id = result.data("result-id");
 
-        if (!clicked[result_id]) {
-            clicked[result_id] = true;
+    //     if (!clicked[result_id]) {
+    //         clicked[result_id] = true;
 
-            result.children("img").animate({
-                width: "90%",
-                padding: "+=10px",
-            }, 500);
-        }
-        else {
-            clicked[result_id] = false;
+    //         result.children("img").animate({
+    //             width: "90%",
+    //             padding: "+=10px",
+    //         }, 500);
+    //     }
+    //     else {
+    //         clicked[result_id] = false;
 
-            result.children("img").animate({
-                width: "100%",
-                padding: "-=10px",
-            }, 500);
-        }
+    //         result.children("img").animate({
+    //             width: "100%",
+    //             padding: "-=10px",
+    //         }, 500);
+    //     }
+    // });
+
+    results.click(function() {
+        $(".deleted-result-holder").append($(this).clone());
+        $(this).remove();
+        console.log($(".deleted-result-holder>div:last"));
+        addDeleteResultsTrigger($(".deleted-result-holder>div:last"));
+    });
+};
+
+var addDeleteResultsTrigger = function(deletedResults) { 
+    deletedResults.click(function() {
+        $(".result-holder:first").append($(this).clone());
+        $(this).remove();
+        addResultsTrigger($(".result-holder:first>div:last"));
     });
 };
 
@@ -212,7 +227,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         button.text(data);
         $(this).parent().parent().removeClass('custom-show');
     });
-}
+};
 
 var handleTagTrigger = function () {
     // Remove tags
@@ -277,7 +292,7 @@ var handleTagTrigger = function () {
         tagHolder.find('span:last i').click(removeTagFunc);
         masterTagHolder.find('span:last i').click(removeMasterTagFunc);
     });
-}
+};
 
 var renderTemplate = function (categories, attributes, concepts, activities, locations, songs) {
     Handlebars.registerPartial(
@@ -298,8 +313,8 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
         `
     )
 
-    cateTemplate = Handlebars.compile($('.category-filter .all-data').text());
-    actiTemplate = Handlebars.compile($('.extradata-activity .dropdown-content div').text());
+    cateTemplate = Handlebars.compile(`{{>createDataEl}}`);
+    actiTemplate = Handlebars.compile(`{{>createExtraDataEl}}`);
 
     $('.category-filter .all-data').html(cateTemplate({ 'data': categories }));
     $('.attribute-filter .all-data').html(cateTemplate({ 'data': attributes }));
@@ -307,11 +322,33 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     $('.extradata-activity .dropdown-content div').html(actiTemplate({ 'data': activities }));
     $('.extradata-location .dropdown-content div').html(actiTemplate({ 'data': locations }));
     $('.extradata-song .dropdown-content div').html(actiTemplate({ 'data': songs }));
-}
+};
+
+var sendQuery = function(query) {
+    var onSuccess = function(data) {
+        resultsTemplate = Handlebars.compile(`
+        {{#each results}}
+        <div class="col-md-2 result" data-result-id="{{this}}">
+            <div class="action-button"></div>
+            <img src="./mock_dataset/{{this}}" alt="result">
+        </div>
+        {{/each}}
+        `);
+
+        $('.result-holder:first').html(resultsTemplate({'results': JSON.parse(data)}));
+
+        addResultsTrigger($(".result-holder:first>div"));
+    };
+
+    $.ajax({
+        type: "POST",
+        url: "/search",
+        data: "",
+        success: onSuccess,
+    });
+};
 
 $(document).ready(async function () {
-    handleResultTrigger();
-
     handleDropdownCustomTrigger();
 
     var activities = JSON.parse(await $.get("/data/activities"));
@@ -331,4 +368,9 @@ $(document).ready(async function () {
     handleFiltersData(categories, attributes, concepts, activities, locations, songs);
 
     handleTagTrigger();
+
+    $('header .search-bar i:last').click(function () {
+        var query = $('header .search-bar input').val();
+        sendQuery(query);
+    });
 });

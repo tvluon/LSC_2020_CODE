@@ -1,6 +1,7 @@
 var express = require('express');
 var dataRouter = require('./router/data');
 var mainRouter = require('./router/main');
+var searchRouter = require('./router/search');
 var hbs = require('express-handlebars');
 var app = express();
 
@@ -16,6 +17,7 @@ app.set('views', './views');
 app.set('view engine', 'hbs');
 
 app.use(express.static('./public'));
+app.use('/search', searchRouter);
 app.use('/data', dataRouter);
 app.use('/', mainRouter);
 
