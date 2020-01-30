@@ -14,7 +14,7 @@ var addMouseTriggerOnActionButton = function (actionButton) {
     });
 };
 
-var addResultsTrigger = function(results) {
+var addResultsTrigger = function (results) {
     var deletedResultHolder = $(".deleted-result-holder");
     // var clicked = Array.from(results.map((_) => false));
 
@@ -45,15 +45,15 @@ var addResultsTrigger = function(results) {
     //     }
     // });
 
-    results.click(function() {
+    results.click(function () {
         $(".deleted-result-holder").append($(this).clone());
         $(this).remove();
         addDeleteResultsTrigger($(".deleted-result-holder>div:last"));
     });
 };
 
-var addDeleteResultsTrigger = function(deletedResults) { 
-    deletedResults.click(function() {
+var addDeleteResultsTrigger = function (deletedResults) {
+    deletedResults.click(function () {
         $(".result-holder:first").append($(this).clone());
         $(this).remove();
         addResultsTrigger($(".result-holder:first>div:last"));
@@ -235,7 +235,7 @@ var handleTagTrigger = function () {
     var removeTagFunc = function () {
         var tag = $(this).parent().text();
         $(this).parent().remove();
-        
+
         console.log(tag);
         masterTagHolder = $('.container-fluid>.tag');
         masterTagHolder.children('span').each(function () {
@@ -246,17 +246,17 @@ var handleTagTrigger = function () {
         });
     }
 
-    var removeMasterTagFunc = function() {
+    var removeMasterTagFunc = function () {
         var tag = $(this).parent().text();
         $(this).parent().remove();
-        
+
         console.log(tag);
         tagHolder = $('.filter-holder .dropdown-menu .tag');
         tagHolder.children('span').each(function () {
             if ($(this).text() == tag) {
                 $(this).remove();
             }
-        });  
+        });
     }
 
     tagElRmBtns.click(removeTagFunc);
@@ -269,7 +269,7 @@ var handleTagTrigger = function () {
         var dropdownMenu = $(this).closest('.dropdown-menu');
         var tagHolder = dropdownMenu.children('.tag');
         var masterTagHolder = $('.container-fluid>.tag');
-        
+
         var selectedTags = tagHolder.children('span').map(function () {
             return $(this).text();
         }).toArray();
@@ -323,8 +323,25 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     $('.extradata-song .dropdown-content div').html(actiTemplate({ 'data': songs }));
 };
 
-var sendQuery = function(query) {
-    var onSuccess = function(data) {
+var addResultsToHolder = function (result) {
+    $(".deleted-result-holder").html('');
+
+    resultsTemplate = Handlebars.compile(`
+        {{#each filenames}}
+        <div class="col-md-2 result" data-result-id="{{this}}">
+            <div class="action-button"></div>
+            <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{@root.dir}}/{{this}}" alt="result">
+        </div>
+        {{/each}}
+        `);
+
+    $('.result-holder:first').html(resultsTemplate({ 'filenames': result.filenames, 'dir': result.dir}));
+
+    addResultsTrigger($(".result-holder:first>div"));
+}
+
+var sendQuery = function (query) {
+    var onSuccess = function (data) {
         resultsTemplate = Handlebars.compile(`
         {{#each results}}
         <div class="col-md-2 result" data-result-id="{{this}}">
@@ -334,7 +351,7 @@ var sendQuery = function(query) {
         {{/each}}
         `);
 
-        $('.result-holder:first').html(resultsTemplate({'results': JSON.parse(data)}));
+        $('.result-holder:first').html(resultsTemplate({ 'results': JSON.parse(data) }));
 
         addResultsTrigger($(".result-holder:first>div"));
     };
@@ -380,5 +397,28 @@ $(document).ready(async function () {
 
         $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
         $(this).attr('download', 'results');
+    });
+
+    var list_filenames = []
+    var page = -1
+    $('.import-export .next').click(async function () {
+        if (list_filenames.length == 0) {
+            data = await $.get("/search/annotation");
+            list_filenames = JSON.parse(data);
+            console.log(list_filenames[0].dir);
+        }
+        if (page == list_filenames.length - 1) {
+            return;
+        }
+        page++;
+        addResultsToHolder(list_filenames[page])
+    });
+
+    $('.import-export .prev').click(function () {
+        if (page == 0 || list_filenames.length == 0) {
+            return;
+        }
+        page--;
+        addResultsToHolder(list_filenames[page])
     });
 });
