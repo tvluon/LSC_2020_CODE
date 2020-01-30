@@ -15,48 +15,26 @@ var addMouseTriggerOnActionButton = function (actionButton) {
 };
 
 var addResultsTrigger = function (results) {
-    var deletedResultHolder = $(".deleted-result-holder");
-    // var clicked = Array.from(results.map((_) => false));
-
-    // addMouseTriggerOnResult(results);
-
-    // addMouseTriggerOnActionButton($(".result-holder .action-button"))
-
-    // $(".result-holder .action-button").click(function () {
-    //     result = $(this).parent();
-
-    //     result_id = result.data("result-id");
-
-    //     if (!clicked[result_id]) {
-    //         clicked[result_id] = true;
-
-    //         result.children("img").animate({
-    //             width: "90%",
-    //             padding: "+=10px",
-    //         }, 500);
-    //     }
-    //     else {
-    //         clicked[result_id] = false;
-
-    //         result.children("img").animate({
-    //             width: "100%",
-    //             padding: "-=10px",
-    //         }, 500);
-    //     }
-    // });
-
     results.click(function () {
         $(".deleted-result-holder").append($(this).clone());
-        $(this).remove();
         addDeleteResultsTrigger($(".deleted-result-holder>div:last"));
+        $(this).remove();
+
+        $(".deleted-result-holder:first>div").sort(function (a, b) {
+            return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
+        }).appendTo($(".deleted-result-holder"));
     });
 };
 
 var addDeleteResultsTrigger = function (deletedResults) {
     deletedResults.click(function () {
         $(".result-holder:first").append($(this).clone());
-        $(this).remove();
         addResultsTrigger($(".result-holder:first>div:last"));
+        $(this).remove();
+
+        $(".result-holder:first>div").sort(function (a, b) {
+            return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
+        }).appendTo($(".result-holder:first"));
     });
 };
 
@@ -335,9 +313,11 @@ var addResultsToHolder = function (result) {
         {{/each}}
         `);
 
-    $('.result-holder:first').html(resultsTemplate({ 'filenames': result.filenames, 'dir': result.dir}));
+    $('.result-holder:first').html(resultsTemplate({ 'filenames': result.filenames, 'dir': result.dir }));
 
     addResultsTrigger($(".result-holder:first>div"));
+
+    $('.seleted-date').text(result.dir);
 }
 
 var sendQuery = function (query) {
@@ -399,11 +379,11 @@ $(document).ready(async function () {
         $(this).attr('download', 'results');
     });
 
-    var list_filenames = []
-    var page = -1
+    var list_filenames = [];
+    var page = -1;
     $('.import-export .next').click(async function () {
         if (list_filenames.length == 0) {
-            data = await $.get("/search/annotation");
+            data = await $.get('/search/annotation');
             list_filenames = JSON.parse(data);
             console.log(list_filenames[0].dir);
         }

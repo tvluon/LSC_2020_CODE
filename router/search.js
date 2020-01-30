@@ -11,11 +11,10 @@ router.get('/annotation', (req, res) => {
     var filenames = readFilenamesInDir(__dirname + '/../mock_results/annotation');
     var list_filenames = []
     filenames.forEach(filename => {
-        console.log(filenames);
         var data = fs.readFileSync(__dirname + '/../mock_results/annotation/' + filename, 'utf-8');
         list_filenames.push({
             'dir': filename.split('.')[0],
-            'filenames': data.split('\n'),
+            'filenames': data.split('\n').sort(),
         });
     });
     res.json(JSON.stringify(list_filenames));
