@@ -23,6 +23,8 @@ var addResultsTrigger = function (results) {
         $(".deleted-result-holder:first>div").sort(function (a, b) {
             return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
         }).appendTo($(".deleted-result-holder"));
+
+        $('.deleted-result-holder').animate({'scrollLeft': '+=2000'}, 500);
     });
 };
 
@@ -317,7 +319,7 @@ var addResultsToHolder = function (result) {
 
     addResultsTrigger($(".result-holder:first>div"));
 
-    $('.seleted-date').text(result.dir);
+    $('.seleted-date').val(result.dir);
 }
 
 var sendQuery = function (query) {
@@ -385,7 +387,6 @@ $(document).ready(async function () {
         if (list_filenames.length == 0) {
             data = await $.get('/search/annotation');
             list_filenames = JSON.parse(data);
-            console.log(list_filenames[0].dir);
         }
         if (page == list_filenames.length - 1) {
             return;
@@ -400,5 +401,26 @@ $(document).ready(async function () {
         }
         page--;
         addResultsToHolder(list_filenames[page])
+    });
+
+    $('.seleted-date').keyup(async function (e) { 
+        if (list_filenames.length == 0) {
+            data = await $.get('/search/annotation');
+            list_filenames = JSON.parse(data);
+        }
+
+        if (e.which == 13) {
+            var dateValue = $(this).val();
+            index = list_filenames.findIndex((filenames) => {
+                return filenames.dir == dateValue;
+            });
+            if (index == -1) {
+                $(this).val('');
+                $(this).attr('placeholder', 'Invalid date!!! Enter again');
+                return;
+            }
+            page = index;
+            addResultsToHolder(list_filenames[page]);
+        }
     });
 });
