@@ -371,7 +371,7 @@ $(document).ready(async function () {
     });
 
     $('.import-export .export a').click(function () {
-        var results = $('.result-holder:first>div').map(function (params) {
+        var results = $('.deleted-result-holder>div').map(function (params) {
             return $(this).data('result-id');
         }).toArray();
 

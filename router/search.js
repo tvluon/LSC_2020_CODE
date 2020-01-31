@@ -9,8 +9,8 @@ router.post('/', async (req, res)  =>  {
 
 router.get('/annotation', (req, res) => {
     var filenames = readFilenamesInDir(__dirname + '/../mock_results/annotation');
-    filenames.sort();
-    //filenames.sort((a, b) => a > b ? -1 : 1);
+    // filenames.sort();
+    filenames.sort((a, b) => a > b ? -1 : 1);
     var list_filenames = []
     filenames.forEach(filename => {
         var data = fs.readFileSync(__dirname + '/../mock_results/annotation/' + filename, 'utf-8');
