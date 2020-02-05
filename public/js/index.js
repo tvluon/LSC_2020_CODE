@@ -319,7 +319,7 @@ var addResultsToHolder = function (result) {
 
     addResultsTrigger($(".result-holder:first>div"));
 
-    $('.seleted-date').val(result.dir);
+    $('.selected-date').val(result.dir);
 }
 
 var sendQuery = function (query) {
@@ -378,7 +378,7 @@ $(document).ready(async function () {
         }).toArray();
 
         $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
-        $(this).attr('download', 'results');
+        $(this).attr('download', 'car_' + $('.selected-date').val());
     });
 
     var list_filenames = [];
@@ -403,7 +403,7 @@ $(document).ready(async function () {
         addResultsToHolder(list_filenames[page])
     });
 
-    $('.seleted-date').keyup(async function (e) { 
+    $('.selected-date').keyup(async function (e) { 
         if (list_filenames.length == 0) {
             data = await $.get('/search/annotation');
             list_filenames = JSON.parse(data);
