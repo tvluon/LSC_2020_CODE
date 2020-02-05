@@ -1,4 +1,5 @@
 var express = require('express')
+var fs = require('fs')
 var router = express.Router()
 
 router.get('/activities', (req, res) => {
@@ -22,6 +23,10 @@ router.get('/attributes', (req, res) => {
 });
 
 router.get('/categories', (req, res) => {
+    var data = fs.readFileSync(__dirname + '/categories.txt', 'utf-8');
+    var categories = data.split('\n').map(function(value){
+        return value.split(' ')[0].substring(3);
+    });
     res.json(JSON.stringify(categories));
 });
 

@@ -329,7 +329,7 @@ var sendQuery = function (query) {
 
 var setCountdownTimer = function () {
     // Set the date we're counting down to
-    var DEFAULT_TIME = 10;
+    var DEFAULT_TIME = 5 * 60;
 
     var distance = DEFAULT_TIME;
 
