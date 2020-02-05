@@ -1,15 +1,7 @@
 <!-- Footer -->
 <footer class="row mx-0 my-2">
-    <!-- Result per page -->
-    {{!-- <ul class="col-md-4 pagination my-0">
-        <li class="page-item disabled"><a class="page-link" href="#">Result per page</a></li>
-        <li class="page-item"><a class="page-link" href="#">10</a></li>
-        <li class="page-item"><a class="page-link bg-info" href="#">20</a></li>
-        <li class="page-item"><a class="page-link" href="#">30</a></li>
-        <li class="page-item"><a class="page-link" href="#">40</a></li>
-    </ul> --}}
     <!-- Import/Export -->
-    <div class="col-md-4 import-export">
+    <div class="col-md-6 import-export">
         <div class="import d-flex pr-2">
             <img class="flex-grow-1" src="./img/icon_import.png" alt="import">
             <a>Import</a>
@@ -20,28 +12,9 @@
         </div>
     </div>
 
-    <div class="col-md-4 d-flex justify-content-center">
-        <input class="selected-date col-md-12 text-center" placeholder="Click Next button or Enter a date here">
+    <div class="col-md-6 import-export timer-holder justify-content-end">
+        <i class="fa fa-play pr-2"></i>
+        <input id='countdown-timer'>
+        <i class="fa fa-redo-alt pl-2"></i>
     </div>
-
-    <div class="col-md-4 import-export justify-content-end">
-        <div class="prev d-flex pr-2">
-            <img class="flex-grow-1" src="./img/icon_prev.png" alt="prev">
-            <a>Prev</a>
-        </div>
-        <div class="next d-flex pl-2">
-            <a>Next</a>
-            <img class="flex-grow-1" src="./img/icon_next.png" alt="next">
-        </div>
-    </div>
-    {{!-- <!-- Pagination -->
-    <ul class="col-md-6 pagination justify-content-end p-0 my-0">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link bg-info" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-        <li class="page-item"><a class="page-link" href="#">10</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul> --}}
 </footer>

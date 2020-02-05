@@ -24,7 +24,7 @@ var addResultsTrigger = function (results) {
             return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
         }).appendTo($(".deleted-result-holder"));
 
-        $('.deleted-result-holder').animate({'scrollLeft': '+=2000'}, 500);
+        $('.deleted-result-holder').animate({ 'scrollLeft': '+=2000' }, 500);
     });
 };
 
@@ -303,25 +303,6 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     $('.extradata-song .dropdown-content div').html(actiTemplate({ 'data': songs }));
 };
 
-var addResultsToHolder = function (result) {
-    $(".deleted-result-holder").html('');
-
-    resultsTemplate = Handlebars.compile(`
-        {{#each filenames}}
-        <div class="col-md-2 result" data-result-id="{{this}}">
-            <div class="action-button"></div>
-            <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{@root.dir}}/{{this}}" alt="result">
-        </div>
-        {{/each}}
-        `);
-
-    $('.result-holder:first').html(resultsTemplate({ 'filenames': result.filenames, 'dir': result.dir }));
-
-    addResultsTrigger($(".result-holder:first>div"));
-
-    $('.selected-date').val(result.dir);
-}
-
 var sendQuery = function (query) {
     var onSuccess = function (data) {
         resultsTemplate = Handlebars.compile(`
@@ -346,6 +327,77 @@ var sendQuery = function (query) {
     });
 };
 
+var setCountdownTimer = function () {
+    // Set the date we're counting down to
+    var DEFAULT_TIME = 10;
+
+    var distance = DEFAULT_TIME;
+
+    var pause = true;
+
+    var timer = function () {
+        if (pause) {
+            return;
+        }
+
+        distance--;
+
+        setTimer(distance);
+
+        // If the count down is over, write some text 
+        if (distance < 0) {
+            $('.timer-holder>i:first').trigger('click');
+            $('#countdown-timer').val('0');
+        }
+    }
+
+    var setTimer = function(distance) {
+        // Time calculations for days, hours, minutes and seconds
+        var minutes = Math.floor(distance / 60);
+        var seconds = Math.floor(distance % 60);
+
+        // Output the result in an element with id="demo"
+        $('#countdown-timer').val(minutes + "m " + seconds + "s");
+    };
+
+    setTimer(DEFAULT_TIME);
+
+    // Update the count down every 1 second
+    setInterval(timer, 1000);
+
+    $('.timer-holder>i:first').click(function () {
+        if (pause) {
+            $(this).removeClass('fa-play').addClass('fa-pause');
+            pause = false;
+            return;
+        }
+        $(this).removeClass('fa-pause').addClass('fa-play');
+        pause = true;
+    });
+    
+    $('.timer-holder>i:last').click(function() {
+        pause = true;
+        $('.timer-holder>i:first').removeClass('fa-pause').addClass('fa-play');
+        distance = DEFAULT_TIME;
+        setTimer(distance);
+    });
+
+    $('#countdown-timer').focus(function() {
+        pause = true;
+        $('.timer-holder>i:first').removeClass('fa-pause').addClass('fa-play');
+    });
+
+    $('#countdown-timer').keyup(function(e) {
+        if (e.which == 13) {
+            if (parseInt($(this).val()) != 0) {
+                DEFAULT_TIME = parseInt($(this).val())
+            }
+            distance = DEFAULT_TIME;
+            setTimer(distance);
+        }
+    });
+}
+
 $(document).ready(async function () {
     handleDropdownCustomTrigger();
 
@@ -367,60 +419,19 @@ $(document).ready(async function () {
 
     handleTagTrigger();
 
+    setCountdownTimer();
+
     $('header .search-bar i:last').click(function () {
         var query = $('header .search-bar input').val();
         sendQuery(query);
     });
 
     $('.import-export .export a').click(function () {
-        var results = $('.deleted-result-holder>div').map(function (params) {
+        var results = $('.result-holder:first>div').map(function (params) {
             return $(this).data('result-id');
         }).toArray();
 
         $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
-        $(this).attr('download', 'car_' + $('.selected-date').val());
-    });
-
-    var list_filenames = [];
-    var page = -1;
-    $('.import-export .next').click(async function () {
-        if (list_filenames.length == 0) {
-            data = await $.get('/search/annotation');
-            list_filenames = JSON.parse(data);
-        }
-        if (page == list_filenames.length - 1) {
-            return;
-        }
-        page++;
-        addResultsToHolder(list_filenames[page])
-    });
-
-    $('.import-export .prev').click(function () {
-        if (page == 0 || list_filenames.length == 0) {
-            return;
-        }
-        page--;
-        addResultsToHolder(list_filenames[page])
-    });
-
-    $('.selected-date').keyup(async function (e) { 
-        if (list_filenames.length == 0) {
-            data = await $.get('/search/annotation');
-            list_filenames = JSON.parse(data);
-        }
-
-        if (e.which == 13) {
-            var dateValue = $(this).val();
-            index = list_filenames.findIndex((filenames) => {
-                return filenames.dir == dateValue;
-            });
-            if (index == -1) {
-                $(this).val('');
-                $(this).attr('placeholder', 'Invalid date!!! Enter again');
-                return;
-            }
-            page = index;
-            addResultsToHolder(list_filenames[page]);
-        }
+        $(this).attr('download', 'results');
     });
 });

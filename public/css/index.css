@@ -267,6 +267,15 @@ footer {
     padding: 0;
 }
 
+.timer-holder i {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#countdown-timer {
+    text-align: center;
+}
+
 /* Custom */
 .custom-selected {
     font-weight: bold;
