@@ -382,7 +382,7 @@ body {
     position: absolute;
     top: 0;
     width: 300px;
-    margin: 60px 0 0 0;
+    margin: 100px 0 0 0;
     padding: 0 0 0 5px;
     list-style: circle;
 }
@@ -460,4 +460,10 @@ body {
 .sidebar-nav .child-wrapper input {
     padding-left: 20px;
     margin-left: 20px;
+}
+
+#sidebar-wrapper input {
+    padding-left: 20px;
+    margin-left: 20px;
+    line-height: 30px;
 }

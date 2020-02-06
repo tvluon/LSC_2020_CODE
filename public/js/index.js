@@ -428,6 +428,25 @@ var setTaxonomySidebar = function() {
         event.stopPropagation();
     }
 
+    var inputKeyupCallback = function(event) {
+        if (event.which != 13 || $(this).val() == '') {
+            return;
+        }
+        var value = $(this).val();
+        $(this).parent().children('ul').append(
+            `<li> 
+            <a href="#"><span>${value}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
+            <div class="child-wrapper">
+            <ul></ul>
+            </div>
+            </li>`
+        );
+        var newChild = $(this).parent().children('ul').children('li:last');
+        newChild.click(itemClickedCallback);
+        newChild.children('a').children('i').click(actionBtnClickedCallback);
+        $(this).val('');
+    }
+
     var actionBtnClickedCallback = function(event) {
         if ($(this).hasClass('fa-times')) {
             $(this).closest('li').remove();
@@ -442,24 +461,7 @@ var setTaxonomySidebar = function() {
                 childWrapper.children('input').click(function(event) {
                     event.stopPropagation();
                 });
-                childWrapper.children('input').keyup(function(event) {
-                    if (event.which != 13 || $(this).val() == '') {
-                        return;
-                    }
-                    var value = $(this).val();
-                    $(this).parent().children('ul').append(
-                        `<li> 
-                        <a href="#"><span>${value}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
-                        <div class="child-wrapper">
-                        <ul></ul>
-                        </div>
-                        </li>`
-                    );
-                    var newChild = $(this).parent().children('ul').children('li:last');
-                    newChild.click(itemClickedCallback);
-                    newChild.children('a').children('i').click(actionBtnClickedCallback);
-                    $(this).val('');
-                });
+                childWrapper.children('input').keyup(inputKeyupCallback);
             }
         }
         if ($(this).hasClass('fa-hand-point-left')) {
@@ -471,6 +473,8 @@ var setTaxonomySidebar = function() {
     $('#sidebar-wrapper ul>li').click(itemClickedCallback);
 
     $('#sidebar-wrapper .sidebar-nav li>a>i').click(actionBtnClickedCallback);
+
+    $('#sidebar-wrapper>input').keyup(inputKeyupCallback)
 }
 
 $(document).ready(async function() {
