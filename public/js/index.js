@@ -1,26 +1,26 @@
-var addMouseTriggerOnResult = function (result) {
-    result.mouseenter(function () {
+var addMouseTriggerOnResult = function(result) {
+    result.mouseenter(function() {
         $(this).children(".action-button").css("display", "block");
-    }).mouseleave(function () {
+    }).mouseleave(function() {
         $(this).children(".action-button").css("display", "none");
     });
 };
 
-var addMouseTriggerOnActionButton = function (actionButton) {
-    actionButton.mouseenter(function () {
+var addMouseTriggerOnActionButton = function(actionButton) {
+    actionButton.mouseenter(function() {
         $(this).css("background-color", "#f7f7f7")
-    }).mouseleave(function () {
+    }).mouseleave(function() {
         $(this).css("background-color", "rgba(247, 247, 247, 0.5)")
     });
 };
 
-var addResultsTrigger = function (results) {
-    results.click(function () {
+var addResultsTrigger = function(results) {
+    results.click(function() {
         $(".deleted-result-holder").append($(this).clone());
         addDeleteResultsTrigger($(".deleted-result-holder>div:last"));
         $(this).remove();
 
-        $(".deleted-result-holder:first>div").sort(function (a, b) {
+        $(".deleted-result-holder:first>div").sort(function(a, b) {
             return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
         }).appendTo($(".deleted-result-holder"));
 
@@ -28,29 +28,29 @@ var addResultsTrigger = function (results) {
     });
 };
 
-var addDeleteResultsTrigger = function (deletedResults) {
-    deletedResults.click(function () {
+var addDeleteResultsTrigger = function(deletedResults) {
+    deletedResults.click(function() {
         $(".result-holder:first").append($(this).clone());
         addResultsTrigger($(".result-holder:first>div:last"));
         $(this).remove();
 
-        $(".result-holder:first>div").sort(function (a, b) {
+        $(".result-holder:first>div").sort(function(a, b) {
             return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
         }).appendTo($(".result-holder:first"));
     });
 };
 
-var handleDropdownCustomTrigger = function () {
-    $(".dropdown-menu").click(function (e) {
+var handleDropdownCustomTrigger = function() {
+    $(".dropdown-menu").click(function(e) {
         e.stopPropagation();
     });
 
-    $(".dropdown-custom>button").click(function () {
+    $(".dropdown-custom>button").click(function() {
         $(this).parent().children(".dropdown-content").toggleClass("custom-show");
     });
 };
 
-var handleFiltersData = function (categories, attributes, concepts, activities, locations, songs) {
+var handleFiltersData = function(categories, attributes, concepts, activities, locations, songs) {
     // Sort array
     categories.sort((a, b) => a - b);
     attributes.sort((a, b) => a - b);
@@ -75,14 +75,14 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     extradataSong = $('.extradata-filter .extradata-song');
 
     // Handle event click
-    dictionary.children('span').click(function () {
+    dictionary.children('span').click(function() {
         var parent = $(this).parent();
 
         parent.children('span').removeClass('custom-selected');
         $(this).addClass('custom-selected');
 
         al = $(this).text()
-        parent.parent().children('.all-data').children('span').each(function () {
+        parent.parent().children('.all-data').children('span').each(function() {
             child = $(this);
             text = child.text();
             child.addClass('custom-hidden');
@@ -92,7 +92,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         });
     });
 
-    categorySeachbar.keyup(function (e) {
+    categorySeachbar.keyup(function(e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
             categoryResult.removeClass('custom-show');
@@ -104,13 +104,12 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         if (results.length > 0) {
             categoryResult.addClass('custom-show');
             results.forEach(result => categoryResult.append(`<a href="#">${result}</a>`));
-        }
-        else {
+        } else {
             categoryResult.removeClass('custom-show');
         }
     });
 
-    attributeSeachbar.keyup(function (e) {
+    attributeSeachbar.keyup(function(e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
             attributeResult.removeClass('custom-show');
@@ -122,13 +121,12 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         if (results.length > 0) {
             attributeResult.addClass('custom-show');
             results.forEach(result => attributeResult.append(`<a href="#">${result}</a>`));
-        }
-        else {
+        } else {
             attributeResult.removeClass('custom-show');
         }
     });
 
-    conceptSeachbar.keyup(function (e) {
+    conceptSeachbar.keyup(function(e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
             conceptResult.removeClass('custom-show');
@@ -140,15 +138,14 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         if (results.length > 0) {
             conceptResult.addClass('custom-show');
             results.forEach(result => conceptResult.append(`<a href="#">${result}</a>`));
-        }
-        else {
+        } else {
             conceptResult.removeClass('custom-show');
         }
     });
 
     $('.dictionary span:first-child').trigger('click');
 
-    extradataActivity.find('.dropdown-content input').keyup(function (e) {
+    extradataActivity.find('.dropdown-content input').keyup(function(e) {
         let textField = $(this);
         let keyword = textField.val();
         let allActivities = textField.parent().find('a');
@@ -156,7 +153,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         let results = activities.filter(activity => !activity.toLowerCase().includes(keyword.toLowerCase()));
         allActivities.removeClass('custom-hidden');
         if (results.length > 0) {
-            allActivities.each(function () {
+            allActivities.each(function() {
                 let activity = $(this).text();
                 if (results.findIndex(result => result == activity) != -1) {
                     $(this).addClass('custom-hidden');
@@ -165,7 +162,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         }
     });
 
-    extradataLocation.find('.dropdown-content input').keyup(function (e) {
+    extradataLocation.find('.dropdown-content input').keyup(function(e) {
         let textField = $(this);
         let keyword = textField.val();
         let allLocations = textField.parent().find('a');
@@ -173,7 +170,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         let results = locations.filter(location => !location.toLowerCase().includes(keyword.toLowerCase()));
         allLocations.removeClass('custom-hidden');
         if (results.length > 0) {
-            allLocations.each(function () {
+            allLocations.each(function() {
                 let location = $(this).text();
                 if (results.findIndex(result => result == location) != -1) {
                     $(this).addClass('custom-hidden');
@@ -182,7 +179,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         }
     });
 
-    extradataSong.find('.dropdown-content input').keyup(function (e) {
+    extradataSong.find('.dropdown-content input').keyup(function(e) {
         let textField = $(this);
         let keyword = textField.val();
         let allSongs = textField.parent().children('a');
@@ -190,7 +187,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
         let results = songs.filter(song => !song.toLowerCase().includes(keyword.toLowerCase()));
         allSongs.removeClass('custom-hidden');
         if (results.length > 0) {
-            allSongs.each(function () {
+            allSongs.each(function() {
                 let song = $(this).text();
                 if (results.findIndex(result => result == song) != -1) {
                     $(this).addClass('custom-hidden');
@@ -200,7 +197,7 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     });
 
     allExtradata = $('.extradata-filter .dropdown-custom .dropdown-content a');
-    allExtradata.click(function () {
+    allExtradata.click(function() {
         data = $(this).text();
         button = $(this).parent().parent().parent().children('button');
         button.text(data);
@@ -208,17 +205,17 @@ var handleFiltersData = function (categories, attributes, concepts, activities, 
     });
 };
 
-var handleTagTrigger = function () {
+var handleTagTrigger = function() {
     // Remove tags
     var tagElRmBtns = $('.tag span i');
 
-    var removeTagFunc = function () {
+    var removeTagFunc = function() {
         var tag = $(this).parent().text();
         $(this).parent().remove();
 
         console.log(tag);
         masterTagHolder = $('.container-fluid>.tag');
-        masterTagHolder.children('span').each(function () {
+        masterTagHolder.children('span').each(function() {
             console.log(`current tag ${$(this).text()}`);
             if ($(this).text() == tag) {
                 $(this).remove();
@@ -226,13 +223,13 @@ var handleTagTrigger = function () {
         });
     }
 
-    var removeMasterTagFunc = function () {
+    var removeMasterTagFunc = function() {
         var tag = $(this).parent().text();
         $(this).parent().remove();
 
         console.log(tag);
         tagHolder = $('.filter-holder .dropdown-menu .tag');
-        tagHolder.children('span').each(function () {
+        tagHolder.children('span').each(function() {
             if ($(this).text() == tag) {
                 $(this).remove();
             }
@@ -244,13 +241,13 @@ var handleTagTrigger = function () {
     //Add tag
     var allTags = $('.filter-holder .all-data span');
 
-    allTags.click(function () {
+    allTags.click(function() {
         var tag = $(this).text();
         var dropdownMenu = $(this).closest('.dropdown-menu');
         var tagHolder = dropdownMenu.children('.tag');
         var masterTagHolder = $('.container-fluid>.tag');
 
-        var selectedTags = tagHolder.children('span').map(function () {
+        var selectedTags = tagHolder.children('span').map(function() {
             return $(this).text();
         }).toArray();
 
@@ -273,7 +270,7 @@ var handleTagTrigger = function () {
     });
 };
 
-var renderTemplate = function (categories, attributes, concepts, activities, locations, songs) {
+var renderTemplate = function(categories, attributes, concepts, activities, locations, songs) {
     Handlebars.registerPartial(
         'createDataEl',
         `
@@ -303,8 +300,8 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     $('.extradata-song .dropdown-content div').html(actiTemplate({ 'data': songs }));
 };
 
-var sendQuery = function (query) {
-    var onSuccess = function (data) {
+var sendQuery = function(query) {
+    var onSuccess = function(data) {
         resultsTemplate = Handlebars.compile(`
         {{#each results}}
         <div class="col-md-2 result" data-result-id="{{this}}">
@@ -327,7 +324,7 @@ var sendQuery = function (query) {
     });
 };
 
-var setCountdownTimer = function () {
+var setCountdownTimer = function() {
     // Set the date we're counting down to
     var DEFAULT_TIME = 5 * 60;
 
@@ -335,7 +332,7 @@ var setCountdownTimer = function () {
 
     var pause = true;
 
-    var timer = function () {
+    var timer = function() {
         if (pause) {
             return;
         }
@@ -365,7 +362,7 @@ var setCountdownTimer = function () {
     // Update the count down every 1 second
     setInterval(timer, 1000);
 
-    $('.timer-holder>i:first').click(function () {
+    $('.timer-holder>i:first').click(function() {
         if (pause) {
             $(this).removeClass('fa-play').addClass('fa-pause');
             pause = false;
@@ -374,7 +371,7 @@ var setCountdownTimer = function () {
         $(this).removeClass('fa-pause').addClass('fa-play');
         pause = true;
     });
-    
+
     $('.timer-holder>i:last').click(function() {
         pause = true;
         $('.timer-holder>i:first').removeClass('fa-pause').addClass('fa-play');
@@ -398,7 +395,7 @@ var setCountdownTimer = function () {
     });
 }
 
-$(document).ready(async function () {
+$(document).ready(async function() {
     handleDropdownCustomTrigger();
 
     var activities = JSON.parse(await $.get("/data/activities"));
@@ -421,17 +418,27 @@ $(document).ready(async function () {
 
     setCountdownTimer();
 
-    $('header .search-bar i:last').click(function () {
+    $('header .search-bar i:last').click(function() {
         var query = $('header .search-bar input').val();
         sendQuery(query);
     });
 
-    $('.import-export .export a').click(function () {
-        var results = $('.result-holder:first>div').map(function (params) {
+    $('.import-export .export a').click(function() {
+        var results = $('.result-holder:first>div').map(function(params) {
             return $(this).data('result-id');
         }).toArray();
 
         $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
         $(this).attr('download', 'results');
+    });
+
+    $(".btn-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    $('#sidebar-wrapper ul li').click(function(event) {
+        $(this).children('ul').toggleClass('custom-show');
+        event.stopPropagation();
     });
 });
