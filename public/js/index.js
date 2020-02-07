@@ -1,26 +1,26 @@
-var addMouseTriggerOnResult = function(result) {
-    result.mouseenter(function() {
+var addMouseTriggerOnResult = function (result) {
+    result.mouseenter(function () {
         $(this).children(".action-button").css("display", "block");
-    }).mouseleave(function() {
+    }).mouseleave(function () {
         $(this).children(".action-button").css("display", "none");
     });
 };
 
-var addMouseTriggerOnActionButton = function(actionButton) {
-    actionButton.mouseenter(function() {
+var addMouseTriggerOnActionButton = function (actionButton) {
+    actionButton.mouseenter(function () {
         $(this).css("background-color", "#f7f7f7")
-    }).mouseleave(function() {
+    }).mouseleave(function () {
         $(this).css("background-color", "rgba(247, 247, 247, 0.5)")
     });
 };
 
-var addResultsTrigger = function(results) {
-    results.click(function() {
+var addResultsTrigger = function (results) {
+    results.click(function () {
         $(".deleted-result-holder").append($(this).clone());
         addDeleteResultsTrigger($(".deleted-result-holder>div:last"));
         $(this).remove();
 
-        $(".deleted-result-holder:first>div").sort(function(a, b) {
+        $(".deleted-result-holder:first>div").sort(function (a, b) {
             return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
         }).appendTo($(".deleted-result-holder"));
 
@@ -30,29 +30,29 @@ var addResultsTrigger = function(results) {
     });
 };
 
-var addDeleteResultsTrigger = function(deletedResults) {
-    deletedResults.click(function() {
+var addDeleteResultsTrigger = function (deletedResults) {
+    deletedResults.click(function () {
         $(".result-holder:first").append($(this).clone());
         addResultsTrigger($(".result-holder:first>div:last"));
         $(this).remove();
 
-        $(".result-holder:first>div").sort(function(a, b) {
+        $(".result-holder:first>div").sort(function (a, b) {
             return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
         }).appendTo($(".result-holder:first"));
     });
 };
 
-var handleDropdownCustomTrigger = function() {
-    $(".dropdown-menu").click(function(e) {
+var handleDropdownCustomTrigger = function () {
+    $(".dropdown-menu").click(function (e) {
         e.stopPropagation();
     });
 
-    $(".dropdown-custom>button").click(function() {
+    $(".dropdown-custom>button").click(function () {
         $(this).parent().children(".dropdown-content").toggleClass("custom-show");
     });
 };
 
-var handleFiltersData = function(categories, attributes, concepts, activities, locations, songs) {
+var handleFiltersData = function (categories, attributes, concepts, activities, locations, songs) {
     // Sort array
     categories.sort((a, b) => a - b);
     attributes.sort((a, b) => a - b);
@@ -77,14 +77,14 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
     extradataSong = $('.extradata-filter .extradata-song');
 
     // Handle event click
-    dictionary.children('span').click(function() {
+    dictionary.children('span').click(function () {
         var parent = $(this).parent();
 
         parent.children('span').removeClass('custom-selected');
         $(this).addClass('custom-selected');
 
         al = $(this).text()
-        parent.parent().children('.all-data').children('span').each(function() {
+        parent.parent().children('.all-data').children('span').each(function () {
             child = $(this);
             text = child.text();
             child.addClass('custom-hidden');
@@ -94,7 +94,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         });
     });
 
-    categorySeachbar.keyup(function(e) {
+    categorySeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
             categoryResult.removeClass('custom-show');
@@ -111,7 +111,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         }
     });
 
-    attributeSeachbar.keyup(function(e) {
+    attributeSeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
             attributeResult.removeClass('custom-show');
@@ -128,7 +128,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         }
     });
 
-    conceptSeachbar.keyup(function(e) {
+    conceptSeachbar.keyup(function (e) {
         keyword = $(this).val();
         if (keyword.length == 0) {
             conceptResult.removeClass('custom-show');
@@ -147,7 +147,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
 
     $('.dictionary span:first-child').trigger('click');
 
-    extradataActivity.find('.dropdown-content input').keyup(function(e) {
+    extradataActivity.find('.dropdown-content input').keyup(function (e) {
         let textField = $(this);
         let keyword = textField.val();
         let allActivities = textField.parent().find('a');
@@ -155,7 +155,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         let results = activities.filter(activity => !activity.toLowerCase().includes(keyword.toLowerCase()));
         allActivities.removeClass('custom-hidden');
         if (results.length > 0) {
-            allActivities.each(function() {
+            allActivities.each(function () {
                 let activity = $(this).text();
                 if (results.findIndex(result => result == activity) != -1) {
                     $(this).addClass('custom-hidden');
@@ -164,7 +164,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         }
     });
 
-    extradataLocation.find('.dropdown-content input').keyup(function(e) {
+    extradataLocation.find('.dropdown-content input').keyup(function (e) {
         let textField = $(this);
         let keyword = textField.val();
         let allLocations = textField.parent().find('a');
@@ -172,7 +172,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         let results = locations.filter(location => !location.toLowerCase().includes(keyword.toLowerCase()));
         allLocations.removeClass('custom-hidden');
         if (results.length > 0) {
-            allLocations.each(function() {
+            allLocations.each(function () {
                 let location = $(this).text();
                 if (results.findIndex(result => result == location) != -1) {
                     $(this).addClass('custom-hidden');
@@ -181,7 +181,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         }
     });
 
-    extradataSong.find('.dropdown-content input').keyup(function(e) {
+    extradataSong.find('.dropdown-content input').keyup(function (e) {
         let textField = $(this);
         let keyword = textField.val();
         let allSongs = textField.parent().children('a');
@@ -189,7 +189,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
         let results = songs.filter(song => !song.toLowerCase().includes(keyword.toLowerCase()));
         allSongs.removeClass('custom-hidden');
         if (results.length > 0) {
-            allSongs.each(function() {
+            allSongs.each(function () {
                 let song = $(this).text();
                 if (results.findIndex(result => result == song) != -1) {
                     $(this).addClass('custom-hidden');
@@ -199,7 +199,7 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
     });
 
     allExtradata = $('.extradata-filter .dropdown-custom .dropdown-content a');
-    allExtradata.click(function() {
+    allExtradata.click(function () {
         data = $(this).text();
         button = $(this).parent().parent().parent().children('button');
         button.text(data);
@@ -207,17 +207,17 @@ var handleFiltersData = function(categories, attributes, concepts, activities, l
     });
 };
 
-var handleTagTrigger = function() {
+var handleTagTrigger = function () {
     // Remove tags
     var tagElRmBtns = $('.tag span i');
 
-    var removeTagFunc = function() {
+    var removeTagFunc = function () {
         var tag = $(this).parent().text();
         $(this).parent().remove();
 
         console.log(tag);
         masterTagHolder = $('.container-fluid>.tag');
-        masterTagHolder.children('span').each(function() {
+        masterTagHolder.children('span').each(function () {
             console.log(`current tag ${$(this).text()}`);
             if ($(this).text() == tag) {
                 $(this).remove();
@@ -225,13 +225,13 @@ var handleTagTrigger = function() {
         });
     }
 
-    var removeMasterTagFunc = function() {
+    var removeMasterTagFunc = function () {
         var tag = $(this).parent().text();
         $(this).parent().remove();
 
         console.log(tag);
         tagHolder = $('.filter-holder .dropdown-menu .tag');
-        tagHolder.children('span').each(function() {
+        tagHolder.children('span').each(function () {
             if ($(this).text() == tag) {
                 $(this).remove();
             }
@@ -243,13 +243,13 @@ var handleTagTrigger = function() {
     //Add tag
     var allTags = $('.filter-holder .all-data span');
 
-    allTags.click(function() {
+    allTags.click(function () {
         var tag = $(this).text();
         var dropdownMenu = $(this).closest('.dropdown-menu');
         var tagHolder = dropdownMenu.children('.tag');
         var masterTagHolder = $('.container-fluid>.tag');
 
-        var selectedTags = tagHolder.children('span').map(function() {
+        var selectedTags = tagHolder.children('span').map(function () {
             return $(this).text();
         }).toArray();
 
@@ -272,7 +272,7 @@ var handleTagTrigger = function() {
     });
 };
 
-var renderTemplate = function(categories, attributes, concepts, activities, locations, songs) {
+var renderTemplate = function (categories, attributes, concepts, activities, locations, songs) {
     Handlebars.registerPartial(
         'createDataEl',
         `
@@ -314,8 +314,8 @@ var renderTemplate = function(categories, attributes, concepts, activities, loca
     }));
 };
 
-var sendQuery = function(query) {
-    var onSuccess = function(data) {
+var sendQuery = function (query) {
+    var onSuccess = function (data) {
         resultsTemplate = Handlebars.compile(`
         {{#each results}}
         <div class="col-md-2 result" data-result-id="{{this}}">
@@ -340,7 +340,7 @@ var sendQuery = function(query) {
     });
 };
 
-var setCountdownTimer = function() {
+var setCountdownTimer = function () {
     // Set the date we're counting down to
     var DEFAULT_TIME = 5 * 60;
 
@@ -348,7 +348,7 @@ var setCountdownTimer = function() {
 
     var pause = true;
 
-    var timer = function() {
+    var timer = function () {
         if (pause) {
             return;
         }
@@ -364,7 +364,7 @@ var setCountdownTimer = function() {
         }
     }
 
-    var setTimer = function(distance) {
+    var setTimer = function (distance) {
         // Time calculations for days, hours, minutes and seconds
         var minutes = Math.floor(distance / 60);
         var seconds = Math.floor(distance % 60);
@@ -378,7 +378,7 @@ var setCountdownTimer = function() {
     // Update the count down every 1 second
     setInterval(timer, 1000);
 
-    $('.timer-holder>i:first').click(function() {
+    $('.timer-holder>i:first').click(function () {
         if (pause) {
             $(this).removeClass('fa-play').addClass('fa-pause');
             pause = false;
@@ -388,19 +388,19 @@ var setCountdownTimer = function() {
         pause = true;
     });
 
-    $('.timer-holder>i:last').click(function() {
+    $('.timer-holder>i:last').click(function () {
         pause = true;
         $('.timer-holder>i:first').removeClass('fa-pause').addClass('fa-play');
         distance = DEFAULT_TIME;
         setTimer(distance);
     });
 
-    $('#countdown-timer').focus(function() {
+    $('#countdown-timer').focus(function () {
         pause = true;
         $('.timer-holder>i:first').removeClass('fa-pause').addClass('fa-play');
     });
 
-    $('#countdown-timer').keyup(function(e) {
+    $('#countdown-timer').keyup(function (e) {
         if (e.which == 13) {
             if (parseInt($(this).val()) != 0) {
                 DEFAULT_TIME = parseInt($(this).val())
@@ -411,16 +411,51 @@ var setCountdownTimer = function() {
     });
 }
 
-var setTaxonomySidebar = function() {
-    $(".btn-toggle").click(function(e) {
+var addTaxonomyItem = function (taxonomy, holder) {
+    taxonomy.forEach(item => {
+        holder.append(
+            `<li> 
+            <a href="#"><span>${item['name']}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
+            <div class="child-wrapper">
+            <ul></ul>
+            </div>
+            </li>`
+        );
+        if (item['children']) {
+            var childrenHolder = holder.find('li:last>.child-wrapper>ul');
+            addTaxonomyItem(item['children'], childrenHolder);
+        }
+    });
+}
+
+var getTaxonomyPath = function (li) {
+    var path = []
+
+    if (li.length == 0) {
+        return path;
+    }
+
+    while (!li.parent().hasClass('sidebar-nav')) {
+        path.unshift(li.children('a').children('span').text());
+        li = li.parent().closest('li');
+    }
+    path.unshift(li.children('a').children('span').text());
+    return path;
+}
+
+var setTaxonomySidebar = function (taxonomy) {
+
+    addTaxonomyItem(taxonomy, $('#sidebar-wrapper .sidebar-nav'));
+
+    $(".btn-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
 
-    var itemClickedCallback = function(event) {
+    var itemClickedCallback = function (event) {
         var childWrapper = $(this).children('.child-wrapper');
         if (childWrapper.hasClass('custom-show')) {
-            childWrapper.children('input').remove();
+            childWrapper.find('input').remove();
             childWrapper.removeClass('custom-show');
         } else {
             childWrapper.addClass('custom-show');
@@ -428,41 +463,65 @@ var setTaxonomySidebar = function() {
         event.stopPropagation();
     }
 
-    var inputKeyupCallback = function(event) {
-        if (event.which != 13 || $(this).val() == '') {
+    var inputKeyupCallback = async function (event) {
+        var value = $(this).val();
+        if (event.which != 13 || value == '') {
             return;
         }
-        var value = $(this).val();
+        var path = getTaxonomyPath($(this).closest('li'));
+        path.push(value);
+        var data = await $.post(
+            '/data/taxonomy',
+            {
+                'action': 'insert',
+                'path': JSON.stringify(path)
+            }
+        );
+        $(this).val('');
+        if (data != 'success') {
+            return;
+        }
+
         $(this).parent().children('ul').append(
             `<li> 
-            <a href="#"><span>${value}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
-            <div class="child-wrapper">
-            <ul></ul>
-            </div>
-            </li>`
+                <a href="#"><span>${value}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
+                <div class="child-wrapper">
+                <ul></ul>
+                </div>
+                </li>`
         );
         var newChild = $(this).parent().children('ul').children('li:last');
         newChild.click(itemClickedCallback);
         newChild.children('a').children('i').click(actionBtnClickedCallback);
-        $(this).val('');
     }
 
-    var actionBtnClickedCallback = function(event) {
+    var actionBtnClickedCallback = async function (event) {
         if ($(this).hasClass('fa-times')) {
+            var path = getTaxonomyPath($(this).closest('li'));
+            console.log(path);
+            var data = await $.post(
+                '/data/taxonomy',
+                {
+                    'action': 'delete',
+                    'path': JSON.stringify(path)
+                }
+            );
+
+            if (data != 'success') {
+                return;
+            }
+
             $(this).closest('li').remove();
         }
         if ($(this).hasClass('fa-plus')) {
+            $('#sidebar-wrapper .sidebar-nav input').remove();
             var childWrapper = $(this).closest('li').children('.child-wrapper');
             childWrapper.addClass('custom-show');
-            if (childWrapper.children('input').length != 0) {
-                childWrapper.children('input').remove();
-            } else {
-                childWrapper.append('<input type="text" placeholder="Add new item">');
-                childWrapper.children('input').click(function(event) {
-                    event.stopPropagation();
-                });
-                childWrapper.children('input').keyup(inputKeyupCallback);
-            }
+            childWrapper.append('<input type="text" placeholder="Add new item">');
+            childWrapper.children('input').click(function (event) {
+                event.stopPropagation();
+            });
+            childWrapper.children('input').keyup(inputKeyupCallback);
         }
         if ($(this).hasClass('fa-hand-point-left')) {
 
@@ -477,7 +536,7 @@ var setTaxonomySidebar = function() {
     $('#sidebar-wrapper>input').keyup(inputKeyupCallback)
 }
 
-$(document).ready(async function() {
+$(document).ready(async function () {
     handleDropdownCustomTrigger();
 
     var activities = JSON.parse(await $.get("/data/activities"));
@@ -492,6 +551,8 @@ $(document).ready(async function() {
 
     var categories = JSON.parse(await $.get("/data/categories"));
 
+    var taxonomy = JSON.parse(await $.get("/data/taxonomy"));
+
     renderTemplate(categories, attributes, concepts, activities, locations, songs)
 
     handleFiltersData(categories, attributes, concepts, activities, locations, songs);
@@ -500,15 +561,15 @@ $(document).ready(async function() {
 
     setCountdownTimer();
 
-    setTaxonomySidebar();
+    setTaxonomySidebar(taxonomy);
 
-    $('header .search-bar i:last').click(function() {
+    $('header .search-bar i:last').click(function () {
         var query = $('header .search-bar input').val();
         sendQuery(query);
     });
 
-    $('.import-export .export a').click(function() {
-        var results = $('.result-holder:first>div').map(function(params) {
+    $('.import-export .export a').click(function () {
+        var results = $('.result-holder:first>div').map(function (params) {
             return $(this).data('result-id');
         }).toArray();
 

@@ -30,6 +30,59 @@ router.get('/categories', (req, res) => {
     res.json(JSON.stringify(categories));
 });
 
+router.get('/taxonomy', (req, res) => {
+    var data = fs.readFileSync(__dirname + '/taxonomy.json', 'utf-8');
+    res.json(data);
+});
+
+router.post('/taxonomy', (req, res) => {
+    var action = req.body.action;
+    var path = JSON.parse(req.body.path);
+    if (action == 'insert') {
+        insertTaxonomyItem(path);
+    }
+    else {
+        deleteTaxonomyItem(path);
+    }
+    res.status(200);
+    res.send('success');
+});
+
+var insertTaxonomyItem = function(path) {
+    var taxonomy = readTaxonomy();
+    var tmp = taxonomy;
+    var i = 0;
+    while (i < path.length - 1) {
+        var ele = tmp.find(value => value['name'] == path[i]);
+        if (!ele['children']) {
+            ele['children'] = [];
+        }
+        tmp = ele['children'];
+        i++;
+    }
+    tmp.push({'name': path[path.length-1]});
+    fs.writeFileSync(__dirname + '/taxonomy.json', JSON.stringify(taxonomy));
+}
+
+var deleteTaxonomyItem = function(path) {
+    var taxonomy = readTaxonomy();
+    var tmp = taxonomy;
+    var i = 0;
+    while (i < path.length - 1) {
+        console.log(path[i]);
+        var ele = tmp.find(value => value['name'] == path[i]);
+        tmp = ele['children'];
+        i++;
+    }
+    tmp.splice(tmp.findIndex(value => value['name'] == path[path.length - 1]), 1);
+    fs.writeFileSync(__dirname + '/taxonomy.json', JSON.stringify(taxonomy));
+}
+
+var readTaxonomy = function() {
+    var data = fs.readFileSync(__dirname + '/taxonomy.json', 'utf-8');
+    return JSON.parse(data);
+}
+
 var timezones = ['Local Time', 'UTC Time'];
 
 var timebases = ['Any', 'Asia - Shanghai', 'Europe - Berlin', 'Europe - Dublin', 'Europe - Istanbul', 'Europe - London'];

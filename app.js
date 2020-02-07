@@ -3,6 +3,7 @@ var dataRouter = require('./router/data');
 var mainRouter = require('./router/main');
 var searchRouter = require('./router/search');
 var hbs = require('express-handlebars');
+var bodyParse = require('body-parser');
 var app = express();
 
 app.engine(
@@ -16,6 +17,8 @@ app.engine(
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
+app.use(bodyParse.urlencoded({extended: true}));
+app.use(bodyParse.json());
 app.use(express.static('./public'));
 app.use('/search', searchRouter);
 app.use('/data', dataRouter);
