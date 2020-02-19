@@ -37,6 +37,11 @@ header .logo {
     outline: none;
 }
 
+.search-bar input[type='file'] {
+    height: 0;
+    width: 0;
+}
+
 /* Filters */
 
 .filter-holder>div>button {

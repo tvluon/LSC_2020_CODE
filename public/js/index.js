@@ -578,10 +578,19 @@ $(document).ready(async function () {
     setCountdownTimer();
 
     setTaxonomySidebar(taxonomy);
-
+    
     $('header .search-bar i:last').click(function () {
         var query = $('header .search-bar input').val();
         sendQuery(query);
+    });
+
+    $('header .search-bar input[type="file"]').on('change', function() {
+        // Upload sample image
+        sendQuery("");
+    });
+
+    $('header .search-bar i:first').click(function() {
+        $('header .search-bar input[type="file"]').trigger('click');
     });
 
     $('.import-export .export a').click(function () {
