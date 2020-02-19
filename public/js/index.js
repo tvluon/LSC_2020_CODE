@@ -315,28 +315,44 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
 };
 
 var sendQuery = function (query) {
+    $('.loader-wrapper').removeClass('custom-hidden');
+
     var onSuccess = function (data) {
         resultsTemplate = Handlebars.compile(`
         {{#each results}}
-        <div class="col-md-2 result" data-result-id="{{this}}">
+        <div class="col-md-2 result" data-result-id="{{id}}">
             <div class="action-button"></div>
-            <img src="./mock_dataset/{{this}}" alt="result">
+            <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{date}}/{{id}}.{{ext}}" alt="result">
         </div>
         {{/each}}
         `);
 
         $('.result-holder:first').html(resultsTemplate({
-            'results': JSON.parse(data)
+            'results': JSON.parse(data).map((value) => {
+                date = parseInt(value[0]) ? value.split('_')[0] : value.split('_')[2];
+                ext = parseInt(value[0]) ? 'jpg' : 'JPG';
+                date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6)
+                return {
+                    'id': value,
+                    'date': date,
+                    'ext': ext,
+                }
+            })
         }));
 
         addResultsTrigger($(".result-holder:first>div"));
+
+        $('.loader-wrapper').addClass('custom-hidden');
     };
 
-    $.ajax({
-        type: "POST",
-        url: "/search",
-        data: "",
-        success: onSuccess,
+    $.post("http://localhost:5000", "")
+    .done(onSuccess)
+    .fail((xhr, status, error) => {
+        $('.loader-wrapper').addClass('custom-hidden');
+        alert('Queru failed!\n');
+        console.log(JSON.stringify(xhr));
+        console.log(status);
+        console.log(error);
     });
 };
 
