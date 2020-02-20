@@ -198,7 +198,7 @@ header .logo {
     overflow: auto;
 }
 
-.result-holder>div>div, .result-holder>div>img {
+.result-holder>div>img {
     height: 100%;
 }
 
@@ -206,39 +206,18 @@ header .logo {
     padding: 2px;
 }
 
-.result-holder .action-button {
-    margin: 2px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background-color: rgba(247, 247, 247, 0.5);
-    border-radius: 50%;
-    display: none;
-    cursor: pointer;
-}
-
-.result-holder .action-button::before {
-    font-family: "FontAwesome";
-    content: "\f00c";
-    border-style: solid;
-    border-width: 1px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1.5em;
-    height: 1.5em;
-    font-size: 1em;
-    border-radius: 50%;
-    vertical-align: middle;
-    text-align: center;
-    border-color: #7e7e7e;
-}
-
 .result-holder img {
     width: 100%;
     height: auto;
+}
+
+.result-holder .semantic {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 2px;
+    margin: 2px;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 /* Footer */
@@ -273,6 +252,11 @@ footer {
     justify-content: start;
     align-items: center;
     padding: 0;
+}
+
+.import-export input[type='file'] {
+    width: 0;
+    height: 0;
 }
 
 .timer-holder i {

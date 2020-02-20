@@ -52,7 +52,7 @@ var handleDropdownCustomTrigger = function () {
     });
 };
 
-var handleFiltersData = function (categories, attributes, concepts, activities, locations, songs) {
+var handleFilterData = function (categories, attributes, concepts, activities, locations, songs) {
     // Sort array
     categories.sort((a, b) => a - b);
     attributes.sort((a, b) => a - b);
@@ -321,7 +321,7 @@ var sendQuery = function (query) {
         resultsTemplate = Handlebars.compile(`
         {{#each results}}
         <div class="col-md-2 result" data-result-id="{{id}}">
-            <div class="action-button"></div>
+            <div class="semantic">{{semantic}}</div>
             <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{date}}/{{id}}.{{ext}}" alt="result">
         </div>
         {{/each}}
@@ -329,13 +329,14 @@ var sendQuery = function (query) {
 
         $('.result-holder:first').html(resultsTemplate({
             'results': JSON.parse(data).map((value) => {
-                date = parseInt(value[0]) ? value.split('_')[0] : value.split('_')[2];
-                ext = parseInt(value[0]) ? 'jpg' : 'JPG';
+                date = parseInt(value['image_id'][0]) ? value['image_id'].split('_')[0] : value['image_id'].split('_')[2];
+                ext = parseInt(value['image_id'][0]) ? 'jpg' : 'JPG';
                 date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6)
                 return {
-                    'id': value,
+                    'id': value['image_id'],
                     'date': date,
                     'ext': ext,
+                    'semantic': value['semantic_name']
                 }
             })
         }));
@@ -346,14 +347,14 @@ var sendQuery = function (query) {
     };
 
     $.post("http://localhost:5000", "")
-    .done(onSuccess)
-    .fail((xhr, status, error) => {
-        $('.loader-wrapper').addClass('custom-hidden');
-        alert('Queru failed!\n');
-        console.log(JSON.stringify(xhr));
-        console.log(status);
-        console.log(error);
-    });
+        .done(onSuccess)
+        .fail((xhr, status, error) => {
+            $('.loader-wrapper').addClass('custom-hidden');
+            alert('Queru failed!\n');
+            console.log(JSON.stringify(xhr));
+            console.log(status);
+            console.log(error);
+        });
 };
 
 var setCountdownTimer = function () {
@@ -571,25 +572,25 @@ $(document).ready(async function () {
 
     renderTemplate(categories, attributes, concepts, activities, locations, songs)
 
-    handleFiltersData(categories, attributes, concepts, activities, locations, songs);
+    handleFilterData(categories, attributes, concepts, activities, locations, songs);
 
     handleTagTrigger();
 
     setCountdownTimer();
 
     setTaxonomySidebar(taxonomy);
-    
+
     $('header .search-bar i:last').click(function () {
         var query = $('header .search-bar input').val();
         sendQuery(query);
     });
 
-    $('header .search-bar input[type="file"]').on('change', function() {
+    $('header .search-bar input[type="file"]').on('change', function () {
         // Upload sample image
         sendQuery("");
     });
 
-    $('header .search-bar i:first').click(function() {
+    $('header .search-bar i:first').click(function () {
         $('header .search-bar input[type="file"]').trigger('click');
     });
 
@@ -600,5 +601,34 @@ $(document).ready(async function () {
 
         $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
         $(this).attr('download', 'results');
+    });
+
+    $('.import-export input[type="file"]').on('change', function () {
+        var fileReader = new FileReader();
+
+        fileReader.onload = function (e) {
+            var txt = e.target.result.trim();
+            var listImgPath = txt.split('\n');
+
+            resultsTemplate = Handlebars.compile(`
+            {{#each results}}
+            <div class="col-md-2 result" data-result-id="{{this}}">
+                <div class="semantic"></div>
+                <img src="./dataset/{{this}}" alt="result">
+            </div>
+            {{/each}}`);
+
+            $('.result-holder:first').html(resultsTemplate({
+                'results': listImgPath
+            }));
+
+            addResultsTrigger($(".result-holder:first>div"));
+        }
+
+        fileReader.readAsText($(this).prop('files')[0], 'utf-8');
+    });
+
+    $('.import-export .import').click(function () {
+        $('.import-export input[type="file"]').trigger('click');
     });
 });
