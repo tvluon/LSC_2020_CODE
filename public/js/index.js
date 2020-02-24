@@ -314,40 +314,46 @@ var renderTemplate = function (categories, attributes, concepts, activities, loc
     }));
 };
 
+var onQuerySuccess = function (data) {
+    resultsTemplate = Handlebars.compile(`
+    {{#each results}}
+    <div class="col-md-2 result" data-result-id="{{id}}">
+        <div class="semantic">{{semantic}}</div>
+        <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{date}}/{{id}}.{{ext}}" alt="result">
+    </div>
+    {{/each}}
+    `);
+
+    $('.result-holder:first').html(resultsTemplate({
+        'results': JSON.parse(data).map((value) => {
+            date = parseInt(value['image_id'][0]) ? value['image_id'].split('_')[0] : value['image_id'].split('_')[2];
+            ext = date.substring(0, 4) == '2018' ? 'JPG' : 'jpg';
+            date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6)
+            return {
+                'id': value['image_id'],
+                'date': date,
+                'ext': ext,
+                'semantic': value['semantic_name']
+            }
+        })
+    }));
+
+    $(".result-holder:first>div").sort(function (a, b) {
+        return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
+    }).appendTo($(".result-holder:first"));
+
+    $('.deleted-result-holder').html('');
+
+    addResultsTrigger($(".result-holder:first>div"));
+
+    $('.loader-wrapper').addClass('custom-hidden');
+};
+
 var sendQuery = function (query) {
     $('.loader-wrapper').removeClass('custom-hidden');
 
-    var onSuccess = function (data) {
-        resultsTemplate = Handlebars.compile(`
-        {{#each results}}
-        <div class="col-md-2 result" data-result-id="{{id}}">
-            <div class="semantic">{{semantic}}</div>
-            <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{date}}/{{id}}.{{ext}}" alt="result">
-        </div>
-        {{/each}}
-        `);
-
-        $('.result-holder:first').html(resultsTemplate({
-            'results': JSON.parse(data).map((value) => {
-                date = parseInt(value['image_id'][0]) ? value['image_id'].split('_')[0] : value['image_id'].split('_')[2];
-                ext = parseInt(value['image_id'][0]) ? 'jpg' : 'JPG';
-                date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6)
-                return {
-                    'id': value['image_id'],
-                    'date': date,
-                    'ext': ext,
-                    'semantic': value['semantic_name']
-                }
-            })
-        }));
-
-        addResultsTrigger($(".result-holder:first>div"));
-
-        $('.loader-wrapper').addClass('custom-hidden');
-    };
-
     $.post("http://localhost:5000", "")
-        .done(onSuccess)
+        .done(onQuerySuccess)
         .fail((xhr, status, error) => {
             $('.loader-wrapper').addClass('custom-hidden');
             alert('Queru failed!\n');
@@ -586,8 +592,24 @@ $(document).ready(async function () {
     });
 
     $('header .search-bar input[type="file"]').on('change', function () {
-        // Upload sample image
-        sendQuery("");
+        var formData = new FormData();
+        formData.append('sample', $(this).prop('files')[0])
+        $('.loader-wrapper').removeClass('custom-hidden');
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5000",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: onQuerySuccess,
+            error: function(xhr, status, error) {
+                $('.loader-wrapper').addClass('custom-hidden');
+                alert('Queru failed!');
+                console.log(JSON.stringify(xhr));
+                console.log(status);
+                console.log(error);
+            }
+        });
     });
 
     $('header .search-bar i:first').click(function () {
