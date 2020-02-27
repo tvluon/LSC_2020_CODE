@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 var extrafilters = [
     {'title': 'Activity', 'tag': 'extradata-activity'},
     {'title': 'Location', 'tag': 'extradata-location'},
-    {'title': 'Song', 'tag': 'extradata-song'},
+    // {'title': 'Song', 'tag': 'extradata-song'},
 ];
 
 var filters = [

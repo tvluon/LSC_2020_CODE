@@ -20,21 +20,47 @@
                 <input type="time">
             </div>
         </div>
+
+        <div class="row timebase-timezone-holder mb-3">
+            <div class="col-md-6 d-flex timebase">
+                <span>Weekday:</span>
+                <select class="flex-grow-1" multiple>
+                    <option value="any" selected>Any</option>
+                    <option value="mon">Monday</option>
+                    <option value="tue">Tuesday</option>
+                    <option value="wed">Wednesday</option>
+                    <option value="thu">Thursday</option>
+                    <option value="fri">Friday</option>
+                    <option value="sat">Saturday</option>
+                    <option value="sun">Sunday</option>
+                </select>
+            </div>
+            <div class="col-md-6 d-flex timezone">
+                <span>Period:</span>
+                <select class="flex-grow-1" multiple>
+                    <option value="any" selected>Any</option>
+                    <option value="mor">Morning</option>
+                    <option value="aft">Afternoon</option>
+                    <option value="eve">Evening</option>
+                    <option value="nig">Night</option>
+                </select>
+            </div>
+        </div>
+
         <div class="row timebase-timezone-holder">
             <div class="col-md-6 d-flex timebase">
                 <span>Time base:</span>
                 <select class="flex-grow-1">
                     <option value="local">Local Time</option>
-                    <option value="utc">UTC Time</option>
+                    <option value="utc" selected>UTC Time</option>
                 </select>
             </div>
             <div class="col-md-6 d-flex timezone">
                 <span>Time zone:</span>
                 <select class="flex-grow-1">
-                    <option value="any">Any</option>
                     <option value="shanghai">Asia/Shanghai</option>
                     <option value="berlin">Europe/Berlin</option>
-                    <option value="dublin">Europe/Dublin</option>
+                    <option value="dublin" selected>Europe/Dublin</option>
                     <option value="istanbul">Europe/Istanbul</option>
                     <option value="london">Europe/London</option>
                 </select>
