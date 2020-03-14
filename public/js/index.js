@@ -318,6 +318,7 @@ var onQuerySuccess = function (data) {
     resultsTemplate = Handlebars.compile(`
     {{#each results}}
     <div class="col-md-2 result" data-result-id="{{id}}">
+        <div class="date">{{weekday}} {{date}} {{time}}</div>
         <div class="semantic">{{semantic}}</div>
         <img src="./dataset/Volumes/Samsung_T5/DATASETS/LSC2020/{{date}}/{{id}}.{{ext}}" alt="result">
     </div>
@@ -327,13 +328,17 @@ var onQuerySuccess = function (data) {
     $('.result-holder:first').html(resultsTemplate({
         'results': JSON.parse(data).map((value) => {
             date = parseInt(value['image_id'][0]) ? value['image_id'].split('_')[0] : value['image_id'].split('_')[2];
+            time = parseInt(value['image_id'][0]) ? value['image_id'].split('_')[1] : value['image_id'].split('_')[3];
             ext = date.substring(0, 4) == '2018' ? 'JPG' : 'jpg';
-            date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6)
+            date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6);
+            time = time.substring(0, 2) + ':' + time.substring(2, 4) + ':' + time.substring(4, 6);
             return {
                 'id': value['image_id'],
                 'date': date,
                 'ext': ext,
-                'semantic': value['semantic_name']
+                'semantic': value['semantic_name'],
+                'time': time,
+                'weekday': getWeekday(date)
             }
         })
     }));
@@ -348,6 +353,25 @@ var onQuerySuccess = function (data) {
 
     $('.loader-wrapper').addClass('custom-hidden');
 };
+
+var getWeekday = function (date) {
+    switch (new Date(date).getDay()) {
+        case 0:
+            return "Sun";
+        case 1:
+            return "Mon";
+        case 2:
+            return "Tue";
+        case 3:
+            return "Wed";
+        case 4:
+            return "Thu";
+        case 5:
+            return "Fri";
+        default:
+            return "Sat";
+    }
+}
 
 var sendQuery = function (query) {
     $('.loader-wrapper').removeClass('custom-hidden');
@@ -434,131 +458,6 @@ var setCountdownTimer = function () {
     });
 }
 
-var addTaxonomyItem = function (taxonomy, holder) {
-    taxonomy.forEach(item => {
-        holder.append(
-            `<li> 
-            <a href="#"><span>${item['name']}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
-            <div class="child-wrapper">
-            <ul></ul>
-            </div>
-            </li>`
-        );
-        if (item['children']) {
-            var childrenHolder = holder.find('li:last>.child-wrapper>ul');
-            addTaxonomyItem(item['children'], childrenHolder);
-        }
-    });
-}
-
-var getTaxonomyPath = function (li) {
-    var path = []
-
-    if (li.length == 0) {
-        return path;
-    }
-
-    while (!li.parent().hasClass('sidebar-nav')) {
-        path.unshift(li.children('a').children('span').text());
-        li = li.parent().closest('li');
-    }
-    path.unshift(li.children('a').children('span').text());
-    return path;
-}
-
-var setTaxonomySidebar = function (taxonomy) {
-
-    addTaxonomyItem(taxonomy, $('#sidebar-wrapper .sidebar-nav'));
-
-    $(".btn-toggle").click(function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
-    var itemClickedCallback = function (event) {
-        var childWrapper = $(this).children('.child-wrapper');
-        if (childWrapper.hasClass('custom-show')) {
-            childWrapper.find('input').remove();
-            childWrapper.removeClass('custom-show');
-        } else {
-            childWrapper.addClass('custom-show');
-        }
-        event.stopPropagation();
-    }
-
-    var inputKeyupCallback = async function (event) {
-        var value = $(this).val();
-        if (event.which != 13 || value == '') {
-            return;
-        }
-        var path = getTaxonomyPath($(this).closest('li'));
-        path.push(value);
-        var data = await $.post(
-            '/data/taxonomy',
-            {
-                'action': 'insert',
-                'path': JSON.stringify(path)
-            }
-        );
-        $(this).val('');
-        if (data != 'success') {
-            return;
-        }
-
-        $(this).parent().children('ul').append(
-            `<li> 
-                <a href="#"><span>${value}</span> <i class="fa fa-hand-point-left"></i> <i class="fa fa-plus"></i> <i class="fa fa-times"></i></a>
-                <div class="child-wrapper">
-                <ul></ul>
-                </div>
-                </li>`
-        );
-        var newChild = $(this).parent().children('ul').children('li:last');
-        newChild.click(itemClickedCallback);
-        newChild.children('a').children('i').click(actionBtnClickedCallback);
-    }
-
-    var actionBtnClickedCallback = async function (event) {
-        if ($(this).hasClass('fa-times')) {
-            var path = getTaxonomyPath($(this).closest('li'));
-            console.log(path);
-            var data = await $.post(
-                '/data/taxonomy',
-                {
-                    'action': 'delete',
-                    'path': JSON.stringify(path)
-                }
-            );
-
-            if (data != 'success') {
-                return;
-            }
-
-            $(this).closest('li').remove();
-        }
-        if ($(this).hasClass('fa-plus')) {
-            $('#sidebar-wrapper .sidebar-nav input').remove();
-            var childWrapper = $(this).closest('li').children('.child-wrapper');
-            childWrapper.addClass('custom-show');
-            childWrapper.append('<input type="text" placeholder="Add new item">');
-            childWrapper.children('input').click(function (event) {
-                event.stopPropagation();
-            });
-            childWrapper.children('input').keyup(inputKeyupCallback);
-        }
-        if ($(this).hasClass('fa-hand-point-left')) {
-
-        }
-        event.stopPropagation();
-    }
-
-    $('#sidebar-wrapper ul>li').click(itemClickedCallback);
-
-    $('#sidebar-wrapper .sidebar-nav li>a>i').click(actionBtnClickedCallback);
-
-    $('#sidebar-wrapper>input').keyup(inputKeyupCallback)
-}
-
 $(document).ready(async function () {
     handleDropdownCustomTrigger();
 
@@ -574,8 +473,6 @@ $(document).ready(async function () {
 
     var categories = JSON.parse(await $.get("/data/categories"));
 
-    var taxonomy = JSON.parse(await $.get("/data/taxonomy"));
-
     renderTemplate(categories, attributes, concepts, activities, locations, songs)
 
     handleFilterData(categories, attributes, concepts, activities, locations, songs);
@@ -583,8 +480,6 @@ $(document).ready(async function () {
     handleTagTrigger();
 
     setCountdownTimer();
-
-    setTaxonomySidebar(taxonomy);
 
     $('header .search-bar i:last').click(function () {
         var query = $('header .search-bar input').val();
@@ -602,7 +497,7 @@ $(document).ready(async function () {
             processData: false,
             contentType: false,
             success: onQuerySuccess,
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 $('.loader-wrapper').addClass('custom-hidden');
                 alert('Queru failed!');
                 console.log(JSON.stringify(xhr));
@@ -635,6 +530,7 @@ $(document).ready(async function () {
             resultsTemplate = Handlebars.compile(`
             {{#each results}}
             <div class="col-md-2 result" data-result-id="{{this}}">
+                <div class="date">{{weekday}} {{date}} {{time}}</div>
                 <div class="semantic"></div>
                 <img src="./dataset/{{this}}" alt="result">
             </div>

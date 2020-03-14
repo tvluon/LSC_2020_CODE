@@ -1,41 +1,32 @@
-<div id="wrapper" class="">
-    {{>sidebar}}
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-        <div class="container-fluid d-flex flex-column">
-            {{>header}}
-            <!-- Filters dropdown -->
-            <div class="filter-holder my-2">
-                <!-- Categories -->
-                {{#each filters}}
-                {{>filterdict filter=this}}
-                {{/each}}
+<div class="container-fluid d-flex flex-column">
+    {{>header}}
+    <!-- Filters dropdown -->
+    <div class="filter-holder my-2">
+        <!-- Categories -->
+        {{#each filters}}
+        {{>filterdict filter=this}}
+        {{/each}}
 
-                <!-- Time -->
-                {{>filtertime}}
+        <!-- Time -->
+        {{>filtertime}}
 
-                <!-- Extra Data -->
-                {{>filterextra}}
-            </div>
-            <!-- Tags -->
-            <div class="tag"></div>
-
-            <!-- Horizontal line -->
-            <div class="horizontal-line mt-0 mb-2 bg-secondary"></div>
-
-            <!-- img display -->
-            <div class="row flex-row flex-nowrap result-holder"></div>
-
-            <!-- Horizontal line -->
-            <div class="horizontal-line my-1 bg-secondary"></div>
-
-            <!-- img display -->
-            <div class="row flex-row flex-nowrap result-holder deleted-result-holder"></div>
-
-            {{>footer}}
-        </div>
-    </div> <!-- /#page-content-wrapper -->
-    <div class="loader-wrapper custom-hidden">
-        <div class="loader"></div>
+        <!-- Extra Data -->
+        {{>filterextra}}
     </div>
-</div> <!-- /#wrapper -->
+    <!-- Tags -->
+    <div class="tag"></div>
+
+    <!-- Horizontal line -->
+    <div class="horizontal-line mt-0 mb-2 bg-secondary"></div>
+
+    <!-- img display -->
+    <div class="row flex-row flex-nowrap result-holder"></div>
+
+    <!-- Horizontal line -->
+    <div class="horizontal-line my-1 bg-secondary"></div>
+
+    <!-- img display -->
+    <div class="row flex-row flex-nowrap result-holder deleted-result-holder"></div>
+
+    {{>footer}}
+</div>
