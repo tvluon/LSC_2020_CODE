@@ -529,16 +529,57 @@ $(document).ready(async function () {
 
             resultsTemplate = Handlebars.compile(`
             {{#each results}}
-            <div class="col-md-2 result" data-result-id="{{this}}">
-                <div class="date">{{weekday}} {{date}} {{time}}</div>
-                <div class="semantic"></div>
-                <img src="./dataset/{{this}}" alt="result">
+            <div class="col-md-2 result" data-result-id="{{id}}" data-priority=0>
+                <div class="date"><i class='far fa-star'></i></div>
+                <div class="semantic">{{weekday}} {{date}} {{time}}</div>
+                <img src="./dataset/{{path}}" alt="result">
             </div>
-            {{/each}}`);
+            {{/each}}
+            `);
 
             $('.result-holder:first').html(resultsTemplate({
-                'results': listImgPath
+                'results': listImgPath.map((imgPath) => {
+                    value = imgPath.split('/').pop()
+                    date = parseInt(value[0]) ? value.split('_')[0] : value.split('_')[2];
+                    time = parseInt(value[0]) ? value.split('_')[1] : value.split('_')[3];
+                    date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6);
+                    time = time.substring(0, 2) + ':' + time.substring(2, 4) + ':' + time.substring(4, 6);
+                    return {
+                        'id': imgPath,
+                        'date': date,
+                        'time': time,
+                        'weekday': getWeekday(date),
+                        'path': imgPath
+                    }
+                })
             }));
+
+            $(".result-holder:first>div").sort(function (a, b) {
+                return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
+            }).appendTo($(".result-holder:first"));
+
+            $(".result-holder:first .date>i").click(function (e) {
+                $(this).toggleClass('fa');
+                $(this).toggleClass('far');
+                if ($(this).hasClass('fa')) {
+                    $(this).closest('.result').data('priority', 1);
+                }
+                else {
+                    $(this).closest('.result').data('priority', 0);
+                }
+
+                $(".result-holder:first>div").sort(function (a, b) {
+                    return $(a).children('img').attr('src') > $(b).children('img').attr('src') ? 1 : -1;
+                }).appendTo($(".result-holder:first"));
+
+                $(".result-holder:first>div").sort(function (a, b) {
+                    return $(a).data('priority') > $(b).data('priority') ? -1 : 1;
+                }).appendTo($(".result-holder:first"));
+
+                e.stopPropagation();
+            });
+
+            $('.deleted-result-holder').html('');
 
             addResultsTrigger($(".result-holder:first>div"));
         }

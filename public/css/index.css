@@ -215,7 +215,7 @@ header .logo {
     position: absolute;
     padding: 2px;
     margin: 2px;
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.8);
 }
 
 .result-holder .semantic {
@@ -226,6 +226,13 @@ header .logo {
 .result-holder .date {
     left: 0;
     top: 0;
+    background-color: transparent;
+}
+
+.result-holder .date i {
+    font-size: 24px;
+    color:#FFFF00;
+    cursor: pointer;
 }
 
 /* Footer */
