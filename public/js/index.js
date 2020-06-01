@@ -513,7 +513,8 @@ $(document).ready(async function () {
 
     $('.import-export .export a').click(function () {
         var results = $('.result-holder:first>div').map(function (params) {
-            return $(this).data('result-id');
+            //return $(this).data('result-id');
+            return $(this).children('img').attr('src');
         }).toArray();
 
         $(this).attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(results.join('\n')));
