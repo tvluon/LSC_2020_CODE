@@ -540,17 +540,29 @@ $(document).ready(async function () {
 
             $('.result-holder:first').html(resultsTemplate({
                 'results': listImgPath.map((imgPath) => {
-                    value = imgPath.split('/').pop()
-                    date = parseInt(value[0]) ? value.split('_')[0] : value.split('_')[2];
-                    time = parseInt(value[0]) ? value.split('_')[1] : value.split('_')[3];
-                    date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6);
-                    time = time.substring(0, 2) + ':' + time.substring(2, 4) + ':' + time.substring(4, 6);
-                    return {
-                        'id': imgPath,
-                        'date': date,
-                        'time': time,
-                        'weekday': getWeekday(date),
-                        'path': imgPath
+                    console.log(imgPath)
+                    try {
+                        value = imgPath.split('/').pop()
+                        date = parseInt(value[0]) ? value.split('_')[0] : value.split('_')[2];
+                        time = parseInt(value[0]) ? value.split('_')[1] : value.split('_')[3];
+                        date = date.substring(0, 4) + '-' + date.substring(4, 6) + '-' + date.substring(6);
+                        time = time.substring(0, 2) + ':' + time.substring(2, 4) + ':' + time.substring(4, 6);
+                        return {
+                            'id': imgPath,
+                            'date': date,
+                            'time': time,
+                            'weekday': getWeekday(date),
+                            'path': imgPath
+                        }
+                    }
+                    catch {
+                        return {
+                            'id': imgPath,
+                            'date': '',
+                            'time': '',
+                            'weekday': '',
+                            'path': imgPath
+                        }
                     }
                 })
             }));
