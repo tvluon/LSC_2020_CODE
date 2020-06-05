@@ -269,6 +269,15 @@ footer {
     padding: 0;
 }
 
+.swap {
+    justify-content: center;
+}
+
+.swap i {
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
 .import-export input[type='file'] {
     width: 0;
     height: 0;
