@@ -14,6 +14,7 @@ app.engine(
         layoutsDir: './views/layouts',
     }),
 );
+
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
