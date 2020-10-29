@@ -15,8 +15,8 @@ var onTagClick = function () {
 
         var tagItem = this;
 
-        $('#tag-holder span:last i').click(function () {
-            $(this).parent().remove();
+        $('#tag-holder span:last').click(function () {
+            $(this).remove();
             tagItem.checked = false;
         });
     }
@@ -50,8 +50,8 @@ var onDateTagChange = function () {
 
         var tagItem = this;
 
-        $('#tag-holder span:last i').click(function () {
-            $(this).parent().remove();
+        $('#tag-holder span:last').click(function () {
+            $(this).remove();
             $(tagItem).val('');
         });
     }
@@ -78,8 +78,8 @@ var onTimeTagChange = function () {
 
         var tagItem = this;
 
-        $('#tag-holder span:last i').click(function () {
-            $(this).parent().remove();
+        $('#tag-holder span:last').click(function () {
+            $(this).remove();
             $(tagItem).val('');
         });
     }
@@ -107,8 +107,8 @@ var onDateSelectTagChange = function () {
 
         var tagItem = this;
 
-        $('#tag-holder span:last i').click(function () {
-            $(this).parent().remove();
+        $('#tag-holder span:last').click(function () {
+            $(this).remove();
             $(tagItem).val('any');
         });
     }

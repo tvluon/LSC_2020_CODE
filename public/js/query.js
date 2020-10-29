@@ -77,6 +77,9 @@ function onQuerySuccess(data) {
             </span>
             `;
             $('#tag-holder').append(tagEl);
+            $('#tag-holder span:last').click(function () {
+                $(this).remove();
+            })
         } else {
             $(`#${id}`).trigger('click');
         }
@@ -164,6 +167,27 @@ var onResultClick = function () {
         })
         .fail((xhr, status, error) => {
             alert('Load cluster failed!\n');
+            $('#cluster-holder').html('');
+            console.log(JSON.stringify(xhr));
+            console.log(status);
+            console.log(error);
+        });
+
+    $.post("http://localhost:5000/detail", { 'id': resultId })
+        .done(function (data) {
+            // data = ['abc', 'def'];
+            $('#result-detail-holder>div:last').html('');
+            $('#result-detail-holder>div:last').append(`
+                <div class="w-75 text-left font-weight-bold"> Details: </div>
+            `);
+            JSON.parse(data).forEach(function(detail) {
+                $('#result-detail-holder>div:last').append(`
+                    <div class="w-75 text-left">${detail}</div>
+                `);
+            });
+        })
+        .fail((xhr, status, error) => {
+            alert('Load image detail failed!\n');
             $('#cluster-holder').html('');
             console.log(JSON.stringify(xhr));
             console.log(status);

@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="text-holder">
-                        <div class="font-weight-bold">OCR</div>
+                        <div class="font-weight-bold">Metadata</div>
                         <div class="horizontal-line mt-0 mb-2 bg-secondary"></div>
                         {{!-- <div class="value-holder" id="place-value-holder">
                         </div> --}}
@@ -147,18 +147,18 @@
                                 <div class="mr-2">Month:</div>
                                 <select class="flex-grow-1" data-tag-id="month">
                                     <option value="any" selected>Any</option>
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
+                                    {{!-- <option value="January">January</option> --}}
+                                    <option value="february">February</option>
+                                    <option value="march">March</option>
+                                    {{!-- <option value="April">April</option> --}}
+                                    <option value="may">May</option>
+                                    {{!-- <option value="June">June</option> --}}
+                                    {{!-- <option value="July">July</option> --}}
+                                    <option value="august">August</option>
+                                    <option value="september">September</option>
+                                    <option value="october">October</option>
+                                    {{!-- <option value="November">November</option> --}}
+                                    {{!-- <option value="December">December</option> --}}
                                 </select>
                             </div>
                             <div class="date-select-picker d-flex flex-row" id="year-picker">
@@ -209,7 +209,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Result Detail</h4>
+                    <h4 class="modal-title">Result Details</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -219,8 +219,7 @@
                         <div class="col-md-6">
 
                         </div>
-                        <div class="col-md-6">
-                            {{!-- Metadata --}}
+                        <div class="col-md-6 d-flex flex-column justify-content-center align-items-center flex-wrap">
                         </div>
                     </div>
                     <div class="horizontal-line mt-2 bg-secondary"></div>
