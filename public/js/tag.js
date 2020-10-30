@@ -1,6 +1,9 @@
 
 var onTagClick = function () {
     var tagId = $(this).attr('id');
+    if ($(this).attr('value').includes('/')) {
+        tagId = $(this).attr('value');
+    }
     var tagName = $(this).data('tag-name');
     if (this.checked) {
         console.log(tagId);

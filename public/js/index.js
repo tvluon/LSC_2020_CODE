@@ -17,6 +17,18 @@ var sendQuery = function (query) {
         });
 };
 
+var onSubmitQueryBtnClick = function () { 
+    var query = $('header .search-bar input[type="text"]').val();
+    $('#tag-holder').html('');
+    $('.result-holder').html('');
+    $('.date-picker>input[type="date"]').val('');
+    $('.time-picker>input[type="time"]').val('');
+    $('.date-select-picker>select').val('any');
+    $('input[type="checkbox"]:checked').trigger('click');
+    $('#text-value-holder').html('')
+    sendQuery(query);
+ }
+
 $(document).ready(async function () {
     handleFilterUI();
 
@@ -24,19 +36,13 @@ $(document).ready(async function () {
 
     handleTagTrigger();
 
+    $('header .search-bar i:last').click(onSubmitQueryBtnClick);
 
-    $('header .search-bar i:last').click(function () {
-        var query = $('header .search-bar input[type="text"]').val();
-        $('#tag-holder').html('');
-        $('.result-holder').html('');
-        $('.date-picker>input[type="date"]').val('');
-        $('.time-picker>input[type="time"]').val('');
-        $('.date-select-picker>select').val('any');
-        $('input[type="checkbox"]:checked').trigger('click');
-        $('#text-value-holder').html('')
-        sendQuery(query);
+    $('header .search-bar input[type="text"]').keyup(function (e) {
+        if (e.keyCode == 13) {
+            onSubmitQueryBtnClick();
+        }
     });
-
     // $('header .search-bar input[type="file"]').on('change', function () {
     //     var formData = new FormData();
     //     formData.append('sample', $(this).prop('files')[0])
@@ -58,9 +64,9 @@ $(document).ready(async function () {
     //     });
     // });
 
-    $('header .search-bar i:first').click(function () {
-        $('header .search-bar input[type="file"]').trigger('click');
-    });
+    // $('header .search-bar i:first').click(function () {
+    //     $('header .search-bar input[type="file"]').trigger('click');
+    // });
 
     $('#result-detail-modal').on('hide.bs.modal', function(){
         $(this).removeClass('d-flex');

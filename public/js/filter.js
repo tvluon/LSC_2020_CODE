@@ -807,11 +807,11 @@ function handleFilterUI() {
     });
 
     categories.forEach(function (category) {
-        let elId = category.split(' ').join('-')
-        let elValue = category.toLowerCase()
+        let elValue = category.split(' ').join('-')
+        let elId = elValue.split('/').join('-')
         $('#place-value-holder').append(`
         <div>
-            <input type="checkbox" value="${elValue}" id="place-${elId}" data-tag-name="${category}">
+            <input type="checkbox" value="place-${elValue}" id="place-${elId}" data-tag-name="${category}">
             <label for="place-${elId}">${category}</label>
         </div>
         `);

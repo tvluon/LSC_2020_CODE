@@ -81,7 +81,7 @@ function onQuerySuccess(data) {
                 $(this).remove();
             })
         } else {
-            $(`#${id}`).trigger('click');
+            $(`#${id.split('/').join('-')}`).trigger('click');
         }
     });
 
