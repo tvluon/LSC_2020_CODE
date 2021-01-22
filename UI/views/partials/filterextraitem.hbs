@@ -1,0 +1,17 @@
+{{#with extraitem}}
+<div class="row m-0 {{tag}}">
+    <div class="checkbox-custom">
+        <input type="checkbox" id="customCheckbox">
+        <label for="customCheckbox"></label>
+    </div>
+    <span>{{title}}</span>
+    <div class="dropdown-custom flex-grow-1">
+        <button class="d-flex justify-content-between">Select {{title}}</button>
+        <div class="dropdown-content">
+            <input type="text" placeholder="Search {{title}}...">
+            <div>
+            </div>
+        </div>
+    </div>
+</div>
+{{/with}}

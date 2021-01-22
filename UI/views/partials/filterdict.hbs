@@ -1,0 +1,29 @@
+<!-- Categories -->
+{{#with filter}}
+<div class="dropdown d-inline {{tag}}">
+    <button class="btn btn-light dropdown-toggle border" id="categoryDropdownButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">{{title}}</button>
+    <div class="dropdown-menu dropdown-menu-right ml-2 p-2" aria-labelledby="categoryDropdownButton">
+        <div class='row m-0 justify-content-between'>
+            <span>Selected {{title}}</span>
+            <div class="dropdown-custom col-md-4 p-0">
+                <div class="search-bar col-md-12 d-flex">
+                    <input class="border-0 col-md-12 flex-shrink-1 p-0" type="text" placeholder="Search category...">
+                </div>
+                <div class="dropdown-content"></div>
+            </div>
+        </div>
+        <div class="horizontal-line mt-2 mb-1 bg-secondary"></div>
+        <div class="tag"></div>
+        <div class="horizontal-line mt-0 mb-2 bg-secondary"></div>
+        <div class="dictionary">
+            <span class="custom-selected">A</span>
+            {{#each @root.dictionary}}
+            <span>{{this}}</span>
+            {{/each}}
+        </div>
+        <div class="horizontal-line my-2 bg-secondary"></div>
+        <div class="all-data"></div>
+    </div>
+</div>
+{{/with}}

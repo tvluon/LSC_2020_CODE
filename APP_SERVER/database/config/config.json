@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "lsc_demo",
+    "password": "lsc_demo_password",
+    "database": "lsc_demo_database",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "lsc_demo",
+    "password": "lsc_demo_password",
+    "database": "lsc_demo_database",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "lsc_demo",
+    "password": "lsc_demo_password",
+    "database": "lsc_demo_database",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
